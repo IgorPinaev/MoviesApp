@@ -107,7 +107,7 @@
                                         <connections>
                                             <outlet property="labelName" destination="wTd-0H-9WM" id="vMq-OT-RFt"/>
                                             <outlet property="movieImage" destination="DCK-Mh-11X" id="UkS-JD-evh"/>
-                                            <segue destination="u23-8J-1c9" kind="show" identifier="goToDetail" id="OGl-xK-4p1"/>
+                                            <segue destination="u23-8J-1c9" kind="show" identifier="goToDetail" id="0WB-E1-AAq"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -249,7 +249,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YkO-aE-q41" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2248.8000000000002" y="-331.48425787106447"/>
+            <point key="canvasLocation" x="2382" y="-331"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="c30-Hh-Udu">

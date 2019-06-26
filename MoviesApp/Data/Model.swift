@@ -12,6 +12,7 @@ class Model: NSObject {
 
     static let sharedInstance = Model()
     
+    
     func loadData(stringURL: String, sortBy: String, completionHandler: (()-> Void)?) {
         guard let url = URL(string: stringURL) else {return}
         let session = URLSession(configuration: .default)
@@ -30,22 +31,22 @@ class Model: NSObject {
                 return
             }
             CoreDataManager.sharedInstance.clear(sotring: sortBy)
-            self.parseJSON(data: data, sortBy: sortBy)
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            do{
+            let array = try decoder.decode(Response.self, from: data)
+                for item in array.results {
+                    _ = Movie.addMovie(sorting: sortBy, result: item)
+                }
+                CoreDataManager.sharedInstance.saveContext()
+            } catch {
+                print(error.localizedDescription)
+            }
+            
             completionHandler?()
         }
         dataTask.resume()
         
-    }
-    
-    func parseJSON(data: Data, sortBy: String) {
-        let rootDictionaryAny = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
-        guard let rootDictionary = rootDictionaryAny as? Dictionary<String, Any> else {return}
-        
-                if let array = rootDictionary["results"] as? [Dictionary<String, Any>] {
-                    for dict in array {
-                        _ = Movie.addMovie(sorting: sortBy, dictionary: dict)
-                    }
-                    CoreDataManager.sharedInstance.saveContext()
-                }
     }
 }

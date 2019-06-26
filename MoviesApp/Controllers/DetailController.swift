@@ -27,7 +27,12 @@ class DetailController: UIViewController {
             labelTitle.text = movie?.title
             labelOriginalTitle.text = movie?.originalTitle
 //            labelDate.text = movie?.releaseDate
-            labelVote.text = movie?.voteAverage
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "d MMM yyyy"
+            labelDate.text =  dateFormatter.string(from: movie?.releaseDate as! Date)
+            
+            labelVote.text = movie?.voteAverage.description
             labelOverview.text = movie?.overview
             
             let imagePath = "https://image.tmdb.org/t/p/w300" + movie!.posterPath!

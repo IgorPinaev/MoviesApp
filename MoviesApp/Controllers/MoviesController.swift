@@ -32,13 +32,10 @@ class MoviesController: UIViewController {
         switch sortControl.selectedSegmentIndex {
         case 0:
             sortBy = "popularity.desc"
-            
         case 1:
             sortBy = "vote_average.desc"
-            
         case 2:
             sortBy = "release_date.asc"
-            
         default:
             break
         }

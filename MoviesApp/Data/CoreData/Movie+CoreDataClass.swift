@@ -12,18 +12,17 @@ import CoreData
 
 @objc(Movie)
 public class Movie: NSManagedObject {
-
-    class func addMovie(sorting: String, dictionary: Dictionary<String, Any>) -> Movie{
+    
+    class func addMovie(sorting: String, result: MovieStruct) -> Movie {
         let movie = Movie(context: CoreDataManager.sharedInstance.managedObjectContext)
-        movie.id = dictionary["id"] as? String ?? ""
-        movie.title = dictionary["title"] as? String ?? ""
-        movie.originalTitle = dictionary["original_title"] as? String ?? ""
-        movie.overview = dictionary["overview"] as? String ?? ""
-        movie.releaseDate = dictionary["release_date"] as? NSDate ?? NSDate() ///////
-        movie.voteAverage = dictionary["vote_average"] as? String ?? ""
-        movie.posterPath = dictionary["poster_path"] as? String ?? ""
+        movie.id = result.id ?? 0
+        movie.title = result.title
+        movie.originalTitle = result.originalTitle
+        movie.overview = result.overview
+//        movie.releaseDate = result.releaseDate
+        movie.voteAverage = result.voteAverage ?? 0.0
+        movie.posterPath = result.posterPath
         movie.sorting = sorting
-        
         return movie
     }
 }
