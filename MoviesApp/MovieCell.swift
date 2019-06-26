@@ -13,16 +13,19 @@ class MovieCell: UICollectionViewCell {
     @IBOutlet weak var movieImage: UIImageView!
     @IBOutlet weak var labelName: UILabel!
     
-    func initCell(name: String, image: String) {
+    func initCell(name: String?, image: String?) {
         labelName.text = name
-//        let imagePath = "https://image.tmdb.org/t/p/w300" + image
-//        if let url = URL(string: imagePath){
-//            if let data = try? Data(contentsOf: url) {
-//                movieImage.image = UIImage(data: data)
+        
+        DispatchQueue.main.async {
+//            if let image = image {
+//                if let url = URL(string: "https://image.tmdb.org/t/p/w300" + image){
+//                    if let data = try? Data(contentsOf: url) {
+//                        self.movieImage.image = UIImage(data: data)
+//                        return
+//                    }
+//                }
 //            }
-//            else {
-//                movieImage.image = UIImage(named: "movie")
-//            }
-//        }
+            self.movieImage.image = UIImage(named: "movie")
+        }
     }
 }

@@ -13,7 +13,7 @@ import CoreData
 @objc(Movie)
 public class Movie: NSManagedObject {
     
-    class func addMovie(sorting: String, result: MovieStruct) -> Movie {
+    class func addMovie(result: MovieStruct) -> Movie {
         let movie = Movie(context: CoreDataManager.sharedInstance.managedObjectContext)
         movie.id = result.id ?? 0
         movie.title = result.title
@@ -22,7 +22,6 @@ public class Movie: NSManagedObject {
 //        movie.releaseDate = result.releaseDate
         movie.voteAverage = result.voteAverage ?? 0.0
         movie.posterPath = result.posterPath
-        movie.sorting = sorting
         return movie
     }
 }

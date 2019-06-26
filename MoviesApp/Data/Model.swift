@@ -11,10 +11,19 @@ import UIKit
 class Model: NSObject {
 
     static let sharedInstance = Model()
+    private var isLoading = false
     
+        private let baseUrl: String = "https://api.themoviedb.org/3/discover/movie?api_key=f4a4f31e66aac2fecccbb82d591aaa36&language=en-US&include_adult=false&include_video=false&sort_by="
     
-    func loadData(stringURL: String, sortBy: String, completionHandler: (()-> Void)?) {
-        guard let url = URL(string: stringURL) else {return}
+    func loadData(sortBy: String, page: Int, completionHandler: ((_ result: Response)-> Void)?) {
+        guard !isLoading else {return}
+        isLoading = true
+        
+        guard let url = URL(string: "\(baseUrl)\(sortBy)&page=\(page)" ) else {
+            isLoading = false
+            return
+            
+        }
         let session = URLSession(configuration: .default)
         
         let dataTask = session.dataTask(with: url) {(data, responce, error) in
@@ -28,23 +37,20 @@ class Model: NSObject {
 //                    }
 //                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "error"), object: self)
                 }
+                self.isLoading = false
                 return
             }
-            CoreDataManager.sharedInstance.clear(sotring: sortBy)
             
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             do{
-            let array = try decoder.decode(Response.self, from: data)
-                for item in array.results {
-                    _ = Movie.addMovie(sorting: sortBy, result: item)
-                }
-                CoreDataManager.sharedInstance.saveContext()
+                let array = try decoder.decode(Response.self, from: data)
+                self.isLoading = false
+                completionHandler?(array)
             } catch {
                 print(error.localizedDescription)
             }
             
-            completionHandler?()
         }
         dataTask.resume()
         

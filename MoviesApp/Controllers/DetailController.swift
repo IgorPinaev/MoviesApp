@@ -2,7 +2,7 @@
 //  DetailController.swift
 //  MoviesApp
 //
-//  Created by Игорь Пинаев on 13/06/2019.
+//  Created by Игорь Пинаев on 26/06/2019.
 //  Copyright © 2019 Igor Pinaev. All rights reserved.
 //
 
@@ -10,41 +10,36 @@ import UIKit
 
 class DetailController: UIViewController {
 
-    @IBOutlet private weak var labelTitle: UILabel!
-    @IBOutlet private weak var labelOriginalTitle: UILabel!
-    @IBOutlet private weak var labelVote: UILabel!
-    @IBOutlet private weak var labelDate: UILabel!
-    @IBOutlet private weak var labelOverview: UILabel!
+    @IBOutlet weak var posterImage: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var originalTitleLabel: UILabel!
+    @IBOutlet weak var releaseLabel: UILabel!
+    @IBOutlet weak var voteLabel: UILabel!
+    @IBOutlet weak var overviewLabel: UILabel!
     
-    @IBOutlet private weak var imagePoster: UIImageView!
-    
-    var movie: Movie?
+    var movie: MovieStruct?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if movie != nil {
-            labelTitle.text = movie?.title
-            labelOriginalTitle.text = movie?.originalTitle
-//            labelDate.text = movie?.releaseDate
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "d MMM yyyy"
-            labelDate.text =  dateFormatter.string(from: movie?.releaseDate as! Date)
-            
-            labelVote.text = movie?.voteAverage.description
-            labelOverview.text = movie?.overview
-            
-            let imagePath = "https://image.tmdb.org/t/p/w300" + movie!.posterPath!
-                    if let url = URL(string: imagePath){
+            titleLabel.text = movie?.title
+            originalTitleLabel.text = movie?.originalTitle
+            releaseLabel.text = movie?.releaseDate
+            voteLabel.text = movie?.voteAverage?.description
+            overviewLabel.text = movie?.overview
+
+            DispatchQueue.main.async {
+                if let image = self.movie?.posterPath {
+                    if let url = URL(string: "https://image.tmdb.org/t/p/w300" + image){
                         if let data = try? Data(contentsOf: url) {
-                            imagePoster.image = UIImage(data: data)
-                        }
-                        else {
-                            imagePoster.image = UIImage(named: "movie")
+                            self.posterImage.image = UIImage(data: data)
+                            return
                         }
                     }
-            
+                }
+                self.posterImage.image = UIImage(named: "movie")
+            }
         }
     }
 }

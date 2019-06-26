@@ -64,16 +64,4 @@ class CoreDataManager {
             
         }
     }
-    
-    func moviesSorted(sorting: String) -> [Movie] {
-        let request = NSFetchRequest<Movie>(entityName: "Movie")
-        request.predicate = NSPredicate(format: "sorting = %@", sorting)
-        
-        let array = try? managedObjectContext.fetch(request)
-        
-        if array != nil {
-            return array!
-        }
-        return []
-    }
 }
