@@ -9,35 +9,29 @@
 import UIKit
 
 class Model: NSObject {
-
+    
     static let sharedInstance = Model()
     private var isLoading = false
     
-        private let baseUrl: String = "https://api.themoviedb.org/3/discover/movie?api_key=f4a4f31e66aac2fecccbb82d591aaa36&language=en-US&include_adult=false&include_video=false&sort_by="
+    private let baseUrl: String = "https://api.themoviedb.org/3/discover/movie?api_key=f4a4f31e66aac2fecccbb82d591aaa36&language=en-US&include_adult=false&include_video=false&sort_by="
     
-    func loadData(sortBy: String, page: Int, completionHandler: ((_ result: Response)-> Void)?) {
+    func loadData(sortBy: String, page: Int, completionHandler: ((_ result: Response?, _ error: String?)-> Void)?) {
         guard !isLoading else {return}
         isLoading = true
         
         guard let url = URL(string: "\(baseUrl)\(sortBy)&page=\(page)" ) else {
             isLoading = false
+            completionHandler?(nil, "Error")
             return
-            
         }
         let session = URLSession(configuration: .default)
         
         let dataTask = session.dataTask(with: url) {(data, responce, error) in
             guard let data = data else {
                 if let error = error {
-                    print(error.localizedDescription)
-//                    if let error = error as? URLError, error.code == .notConnectedToInternet
-//                    {
-//                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "endRefreshing"), object: self)
-//                        return
-//                    }
-//                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "error"), object: self)
+                    self.isLoading = false
+                    completionHandler?(nil, error.localizedDescription)
                 }
-                self.isLoading = false
                 return
             }
             
@@ -46,13 +40,12 @@ class Model: NSObject {
             do{
                 let array = try decoder.decode(Response.self, from: data)
                 self.isLoading = false
-                completionHandler?(array)
+                completionHandler?(array, nil)
             } catch {
-                print(error.localizedDescription)
+                self.isLoading = false
+                completionHandler?(nil, error.localizedDescription)
             }
-            
         }
         dataTask.resume()
-        
     }
 }

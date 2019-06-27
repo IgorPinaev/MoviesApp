@@ -34,9 +34,16 @@ class MoviesController: UIViewController {
     
     @objc func refreshControlAction(_ sender: Any) {
         moviesCollection.refreshControl?.beginRefreshing()
-        Model.sharedInstance.loadData(sortBy: sortBy, page: 1) { (response) in
-            self.movies = response.results
-            self.page = response.page
+        Model.sharedInstance.loadData(sortBy: sortBy, page: 1) { (response, error) in
+            
+            if let error = error{
+                print(error)
+            }
+            
+            if let response = response{
+                self.movies = response.results
+                self.page = response.page
+            }
             DispatchQueue.main.async {
                 self.moviesCollection.refreshControl?.endRefreshing()
                 self.moviesCollection.reloadData()
@@ -50,9 +57,9 @@ class MoviesController: UIViewController {
         case 0:
             sortBy = "popularity.desc"
         case 1:
-            sortBy = "vote_average.desc"
+            sortBy = "vote_average.desc&vote_count.gte=5000"
         case 2:
-            sortBy = "release_date.desc"
+            sortBy = "primary_release_date.asc&primary_release_date.gte=2019-06-27"
         default:
             break
         }
@@ -82,9 +89,14 @@ extension MoviesController: UICollectionViewDataSource, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == movies.count - 4 {
-            Model.sharedInstance.loadData(sortBy: sortBy, page: page + 1) { (response) in
-                self.movies.append(contentsOf: response.results)
-                self.page = response.page
+            Model.sharedInstance.loadData(sortBy: sortBy, page: page + 1) { (response, error) in
+                if let error = error {
+                    print(error)
+                }
+                if let response = response{
+                    self.movies.append(contentsOf: response.results)
+                    self.page = response.page
+                }
                 DispatchQueue.main.async {
                     self.moviesCollection.reloadData()
                 }
