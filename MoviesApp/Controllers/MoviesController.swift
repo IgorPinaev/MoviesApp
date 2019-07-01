@@ -86,7 +86,7 @@ class MoviesController: UIViewController {
         activityIndicator.startAnimating()
     }
     
-    func share(index: Int){
+    private func share(index: Int){
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let movie = movies[index]
         

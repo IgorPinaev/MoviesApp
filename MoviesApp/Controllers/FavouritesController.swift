@@ -10,12 +10,14 @@ import UIKit
 
 class FavouritesController: UIViewController {
 
-    @IBOutlet weak var favouritesCollection: UICollectionView!
+    @IBOutlet private weak var favouritesCollection: UICollectionView!
+    private var selectedMovie: MovieStruct?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(FavouritesController.longPressGestureRecognized(_:)))
+        favouritesCollection.addGestureRecognizer(longPress)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -23,16 +25,25 @@ class FavouritesController: UIViewController {
         favouritesCollection.reloadData()
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    private func share (index: Int) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let movie = favourites[index]
+        
+            alert.addAction(UIAlertAction(title: "Remove from favourites", style: .destructive, handler: { (action) in
+                CoreDataManager.sharedInstance.managedObjectContext.delete(movie)
+                CoreDataManager.sharedInstance.saveContext()
+                self.favouritesCollection.reloadData()
+            }))
+        
+        alert.addAction(UIAlertAction(title: "Detalize", style: .default, handler: { (action) in
+            self.selectedMovie = movie.toStruct()
+            self.performSegue(withIdentifier: "goToDetail", sender: self)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
     }
-    */
-
 }
 
 extension FavouritesController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -46,6 +57,30 @@ extension FavouritesController: UICollectionViewDelegate, UICollectionViewDataSo
         cell.initCell(name: movieInCell.title, image: movieInCell.posterPath)
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieInCell = favourites[indexPath.row]
+        selectedMovie = movieInCell.toStruct()
+        performSegue(withIdentifier: "goToDetail", sender: self)
+    }
+    
+    @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {
+        let longPress = gestureRecognizer.location(in: favouritesCollection)
+        let indexPath = favouritesCollection.indexPathForItem(at: longPress)
+        if gestureRecognizer.state == UIGestureRecognizer.State.began {
+            if let index = indexPath?.row {
+                share(index: index)
+            }
+            return
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToDetail" {
+            guard let destination = segue.destination as? DetailController else {return}
+            destination.movie = selectedMovie
+        }
     }
 }
 

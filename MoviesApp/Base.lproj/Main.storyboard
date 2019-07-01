@@ -81,7 +81,7 @@
                     <navigationItem key="navigationItem" title="Favourites" id="K4L-nJ-8R7"/>
                     <connections>
                         <outlet property="favouritesCollection" destination="gdk-Pv-nxl" id="Grx-uy-wiU"/>
-                        <segue destination="bUg-7I-mPK" kind="show" id="M8d-Y2-9xE"/>
+                        <segue destination="bUg-7I-mPK" kind="show" identifier="goToDetail" id="M8d-Y2-9xE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eKd-CF-QRP" userLabel="First Responder" sceneMemberID="firstResponder"/>
