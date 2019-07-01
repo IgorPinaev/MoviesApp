@@ -13,23 +13,25 @@ class MoviesController: UIViewController {
     @IBOutlet private weak var moviesCollection: UICollectionView!
     @IBOutlet private weak var sortControl: UISegmentedControl!
     
+    private let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+    private let container: UIView = UIView()
     private let refreshControl = UIRefreshControl()
+    
     private var sortBy = ""
-    
     private var selectedMovie: MovieStruct?
-    
     private var movies: [MovieStruct] = []
     private var page: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
         moviesCollection.refreshControl = refreshControl
         
         sortControl.selectedSegmentIndex = 0
         changeSortingAction(sortControl)
         
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(MoviesController.longPressGestureRecognized(_:)))
+        moviesCollection.addGestureRecognizer(longPress)
     }
     
     @objc func refreshControlAction(_ sender: Any) {
@@ -59,11 +61,49 @@ class MoviesController: UIViewController {
         case 1:
             sortBy = "vote_average.desc&vote_count.gte=5000"
         case 2:
-            sortBy = "primary_release_date.asc&primary_release_date.gte=2019-06-27"
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-d"
+            let date = dateFormatter.string(from:Date())
+            sortBy = "primary_release_date.asc&primary_release_date.gte=\(date)"
         default:
             break
         }
         refreshControlAction(self)
+    }
+    
+    func showActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.center = view.center
+        
+        container.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
+        container.center = view.center
+        container.backgroundColor = UIColor(white: 0.6, alpha: 0.8)
+        container.clipsToBounds = true
+        container.layer.cornerRadius = 10
+        
+        view.addSubview(container)
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+    }
+    
+    func share(index: Int){
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let movie = movies[index]
+        
+        if favourites.firstIndex(where: {$0.id == movie.id && $0.title == movie.title && $0.originalTitle == movie.originalTitle && $0.releaseDate == movie.releaseDate && $0.overview == movie.overview && $0.posterPath == movie.posterPath && $0.voteAverage == movie.voteAverage}) == nil {
+            alert.addAction(UIAlertAction(title: "Add to favourites", style: .default, handler: { (action) in
+                _ = Movie.addMovie(result: movie)
+                CoreDataManager.sharedInstance.saveContext()
+            }))
+        }
+        
+        alert.addAction(UIAlertAction(title: "Detalize", style: .default, handler: { (action) in
+            self.selectedMovie = movie
+            self.performSegue(withIdentifier: "goToDetail", sender: self)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -89,6 +129,7 @@ extension MoviesController: UICollectionViewDataSource, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == movies.count - 4 {
+            showActivityIndicator()
             Model.sharedInstance.loadData(sortBy: sortBy, page: page + 1) { (response, error) in
                 if let error = error {
                     print(error)
@@ -98,9 +139,22 @@ extension MoviesController: UICollectionViewDataSource, UICollectionViewDelegate
                     self.page = response.page
                 }
                 DispatchQueue.main.async {
+                    self.activityIndicator.removeFromSuperview()
+                    self.container.removeFromSuperview()
                     self.moviesCollection.reloadData()
                 }
             }
+        }
+    }
+    
+    @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {
+        let longPress = gestureRecognizer.location(in: moviesCollection)
+        let indexPath = moviesCollection.indexPathForItem(at: longPress)
+        if gestureRecognizer.state == UIGestureRecognizer.State.began {
+            if let index = indexPath?.row {
+                share(index: index)
+            }
+            return
         }
     }
     

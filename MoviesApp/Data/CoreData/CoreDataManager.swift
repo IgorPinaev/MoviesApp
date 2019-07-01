@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-var movies: [Movie] {
+var favourites: [Movie] {
     let request = NSFetchRequest<Movie>(entityName: "Movie")
     
     let array = try? CoreDataManager.sharedInstance.managedObjectContext.fetch(request)
@@ -47,21 +47,6 @@ class CoreDataManager {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
-        }
-    }
-    
-    func clear(sotring: String) {
-        let fetchRequest = NSFetchRequest<Movie>(entityName: "Movie")
-        fetchRequest.predicate = NSPredicate(format: "sorting = %@", sotring)
-        
-        do {
-            let array = try managedObjectContext.fetch(fetchRequest)
-            
-            for movie in array {
-                managedObjectContext.delete(movie)
-            }
-        } catch {
-            
         }
     }
 }

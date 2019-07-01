@@ -10,12 +10,18 @@ import UIKit
 
 class FavouritesController: UIViewController {
 
+    @IBOutlet weak var favouritesCollection: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        favouritesCollection.reloadData()
+    }
 
     /*
     // MARK: - Navigation
@@ -27,4 +33,27 @@ class FavouritesController: UIViewController {
     }
     */
 
+}
+
+extension FavouritesController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return favourites.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCell
+        let movieInCell = favourites[indexPath.row].toStruct()
+        cell.initCell(name: movieInCell.title, image: movieInCell.posterPath)
+        
+        return cell
+    }
+}
+
+extension FavouritesController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let width = (UIScreen.main.bounds.width - 10) / 2
+        return CGSize(width: width, height: width * 1.5)
+    }
 }

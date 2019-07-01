@@ -56,9 +56,9 @@
 		7D829E3822B9FF9A001A968C /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				7D829E3622B9FF8D001A968C /* Model.swift */,
 				7D9DDC3722B2633A002C13E9 /* CoreData */,
 				7D74C16522C22E9900298124 /* Movies.swift */,
+				7D829E3622B9FF8D001A968C /* Model.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";

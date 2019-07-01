@@ -19,9 +19,15 @@ public class Movie: NSManagedObject {
         movie.title = result.title
         movie.originalTitle = result.originalTitle
         movie.overview = result.overview
-//        movie.releaseDate = result.releaseDate
-        movie.voteAverage = result.voteAverage ?? 0.0
         movie.posterPath = result.posterPath
+        movie.releaseDate = result.releaseDate
+        movie.voteAverage = result.voteAverage ?? 0.0
         return movie
+    }
+    
+    func toStruct() -> MovieStruct {
+        let movieStruct = MovieStruct(id: id, title: title, originalTitle: originalTitle, overview: overview, posterPath: posterPath, releaseDate: releaseDate, voteAverage: voteAverage)
+
+        return movieStruct
     }
 }

@@ -28,13 +28,39 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="uD6-XI-6t9">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MovieCell" id="CyY-dI-J1C" customClass="MovieCell" customModule="MoviesApp" customModuleProvider="target">
+                                        <rect key="frame" x="83" y="0.0" width="209" height="300"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="209" height="300"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dYg-pU-s71">
+                                                    <rect key="frame" x="0.0" y="279.5" width="209" height="20.5"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pnc-Gn-Heu">
+                                                    <rect key="frame" x="0.0" y="0.0" width="209" height="300"/>
+                                                </imageView>
+                                            </subviews>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="Pnc-Gn-Heu" firstAttribute="top" secondItem="CyY-dI-J1C" secondAttribute="top" id="5lf-k2-Cra"/>
+                                            <constraint firstItem="dYg-pU-s71" firstAttribute="leading" secondItem="CyY-dI-J1C" secondAttribute="leading" id="8eo-7L-3gf"/>
+                                            <constraint firstAttribute="bottom" secondItem="Pnc-Gn-Heu" secondAttribute="bottom" id="M3f-GJ-1jZ"/>
+                                            <constraint firstAttribute="trailing" secondItem="dYg-pU-s71" secondAttribute="trailing" id="gFg-aR-UfC"/>
+                                            <constraint firstItem="Pnc-Gn-Heu" firstAttribute="leading" secondItem="CyY-dI-J1C" secondAttribute="leading" id="iAR-hq-wkD"/>
+                                            <constraint firstAttribute="bottom" secondItem="dYg-pU-s71" secondAttribute="bottom" id="lOJ-IL-bf3"/>
+                                            <constraint firstAttribute="trailing" secondItem="Pnc-Gn-Heu" secondAttribute="trailing" id="rAX-u0-Stx"/>
+                                        </constraints>
+                                        <size key="customSize" width="209" height="300"/>
+                                        <connections>
+                                            <outlet property="labelName" destination="dYg-pU-s71" id="Mq6-Ai-XdV"/>
+                                            <outlet property="movieImage" destination="Pnc-Gn-Heu" id="kv7-Id-nyc"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -53,6 +79,10 @@
                         <viewLayoutGuide key="safeArea" id="fOj-Jy-pvG"/>
                     </view>
                     <navigationItem key="navigationItem" title="Favourites" id="K4L-nJ-8R7"/>
+                    <connections>
+                        <outlet property="favouritesCollection" destination="gdk-Pv-nxl" id="Grx-uy-wiU"/>
+                        <segue destination="bUg-7I-mPK" kind="show" id="M8d-Y2-9xE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eKd-CF-QRP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -249,7 +279,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="omV-3N-5up" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2253.5999999999999" y="-331.48425787106447"/>
+            <point key="canvasLocation" x="2538" y="1"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="c30-Hh-Udu">
@@ -308,4 +338,7 @@
             <point key="canvasLocation" x="386.39999999999998" y="334.18290854572717"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="M8d-Y2-9xE"/>
+    </inferredMetricsTieBreakers>
 </document>

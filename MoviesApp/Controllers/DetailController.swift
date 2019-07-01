@@ -9,7 +9,7 @@
 import UIKit
 
 class DetailController: UIViewController {
-
+    
     @IBOutlet weak var posterImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var originalTitleLabel: UILabel!
@@ -21,25 +21,28 @@ class DetailController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if movie != nil {
             titleLabel.text = movie?.title
             originalTitleLabel.text = movie?.originalTitle
             releaseLabel.text = movie?.releaseDate
             voteLabel.text = movie?.voteAverage?.description
             overviewLabel.text = movie?.overview
-
-            DispatchQueue.main.async {
+            self.posterImage.image = UIImage(named: "movie")
+            
+            DispatchQueue.global().async {
                 if let image = self.movie?.posterPath {
-                    if let url = URL(string: "https://image.tmdb.org/t/p/w300" + image){
+                    if let url = URL(string: "https://image.tmdb.org/t/p/original" + image){
                         if let data = try? Data(contentsOf: url) {
-                            self.posterImage.image = UIImage(data: data)
-                            return
+                            DispatchQueue.main.async {
+                                self.posterImage.image = UIImage(data: data)
+                            }
                         }
                     }
                 }
-                self.posterImage.image = UIImage(named: "movie")
             }
+            
+            
         }
     }
 }

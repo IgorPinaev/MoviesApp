@@ -2,7 +2,7 @@
 //  Movie+CoreDataProperties.swift
 //  MoviesApp
 //
-//  Created by Игорь Пинаев on 25/06/2019.
+//  Created by Игорь Пинаев on 01/07/2019.
 //  Copyright © 2019 Igor Pinaev. All rights reserved.
 //
 //
@@ -20,10 +20,9 @@ extension Movie {
     @NSManaged public var id: Int32
     @NSManaged public var originalTitle: String?
     @NSManaged public var overview: String?
-    @NSManaged public var posterPath: String?
-    @NSManaged public var releaseDate: NSDate?
-    @NSManaged public var sorting: String?
+    @NSManaged public var releaseDate: String?
     @NSManaged public var title: String?
     @NSManaged public var voteAverage: Double
+    @NSManaged public var posterPath: String?
 
 }
