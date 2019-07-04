@@ -1,0 +1,60 @@
+
+/* Class = "UITabBarItem"; title = "Favourites"; ObjectID = "1Mu-Nr-D0U"; */
+"1Mu-Nr-D0U.title" = "Favourites";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "7c0-v0-q76"; */
+"7c0-v0-q76.text" = "Label";
+
+/* Class = "UILabel"; text = "Vote average:"; ObjectID = "9SB-Qe-t5D"; */
+"9SB-Qe-t5D.text" = "Vote average:";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Bti-4C-z2k"; */
+"Bti-4C-z2k.text" = "Label";
+
+/* Class = "UINavigationItem"; title = "Favourites"; ObjectID = "K4L-nJ-8R7"; */
+"K4L-nJ-8R7.title" = "Favourites";
+
+/* Class = "UINavigationItem"; title = "Movies"; ObjectID = "LKb-WI-ypR"; */
+"LKb-WI-ypR.title" = "Movies";
+
+/* Class = "UILabel"; text = "Original title:"; ObjectID = "Lkw-Yg-ZiR"; */
+"Lkw-Yg-ZiR.text" = "Original title:";
+
+/* Class = "UILabel"; text = "Release date:"; ObjectID = "OUq-WX-EjV"; */
+"OUq-WX-EjV.text" = "Release date:";
+
+/* Class = "UISegmentedControl"; UQY-sv-4De.segmentTitles[0] = "Popularity"; ObjectID = "UQY-sv-4De"; */
+"UQY-sv-4De.segmentTitles[0]" = "Popularity";
+
+/* Class = "UISegmentedControl"; UQY-sv-4De.segmentTitles[1] = "Vote average"; ObjectID = "UQY-sv-4De"; */
+"UQY-sv-4De.segmentTitles[1]" = "Vote average";
+
+/* Class = "UISegmentedControl"; UQY-sv-4De.segmentTitles[2] = "Release date"; ObjectID = "UQY-sv-4De"; */
+"UQY-sv-4De.segmentTitles[2]" = "Release date";
+
+/* Class = "UITabBarItem"; title = "Search"; ObjectID = "WFA-0G-Eb2"; */
+"WFA-0G-Eb2.title" = "Search";
+
+/* Class = "UILabel"; text = "Title:"; ObjectID = "YfZ-5p-pAc"; */
+"YfZ-5p-pAc.text" = "Title:";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "dYg-pU-s71"; */
+"dYg-pU-s71.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "tI5-rg-ASs"; */
+"tI5-rg-ASs.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "taS-XK-g6x"; */
+"taS-XK-g6x.text" = "Label";
+
+/* Class = "UINavigationItem"; title = "Detail"; ObjectID = "udB-WF-4Ht"; */
+"udB-WF-4Ht.title" = "Detail";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "wTd-0H-9WM"; */
+"wTd-0H-9WM.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "wdt-t9-09i"; */
+"wdt-t9-09i.text" = "Label";
+
+/* Class = "UILabel"; text = "Overview:"; ObjectID = "xW7-L0-cIc"; */
+"xW7-L0-cIc.text" = "Overview:";

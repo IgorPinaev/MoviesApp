@@ -21,6 +21,7 @@ class MoviesController: UIViewController {
     private var selectedMovie: MovieStruct?
     private var movies: [MovieStruct] = []
     private var page: Int = 1
+    private var queryItems: [URLQueryItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +37,7 @@ class MoviesController: UIViewController {
     
     @objc func refreshControlAction(_ sender: Any) {
         moviesCollection.refreshControl?.beginRefreshing()
-        Model.sharedInstance.loadData(sortBy: sortBy, page: 1) { (response, error) in
-            
+        Model.sharedInstance.getData(type: Response.self, queryItems: queryItems) { (response, error) in
             if let error = error{
                 print(error)
             }
@@ -52,19 +52,24 @@ class MoviesController: UIViewController {
                 self.moviesCollection.contentOffset = .zero
             }
         }
+        
     }
     
     @IBAction func changeSortingAction(_ sender: UISegmentedControl) {
+        queryItems = []
         switch sortControl.selectedSegmentIndex {
         case 0:
-            sortBy = "popularity.desc"
+            queryItems.append(URLQueryItem(name: "sort_by", value: "popularity.desc"))
         case 1:
-            sortBy = "vote_average.desc&vote_count.gte=5000"
+            queryItems.append(URLQueryItem(name: "sort_by", value: "vote_average.desc"))
+            queryItems.append(URLQueryItem(name: "vote_count.gte", value: "5000"))
         case 2:
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-d"
             let date = dateFormatter.string(from:Date())
-            sortBy = "primary_release_date.asc&primary_release_date.gte=\(date)"
+            queryItems.append(URLQueryItem(name: "sort_by", value: "primary_release_date.asc"))
+            queryItems.append(URLQueryItem(name: "primary_release_date.gte", value: date))
+            queryItems.append(URLQueryItem(name: "region", value: Locale.current.regionCode ?? "US"))
         default:
             break
         }
@@ -130,13 +135,15 @@ extension MoviesController: UICollectionViewDataSource, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == movies.count - 4 {
             showActivityIndicator()
-            Model.sharedInstance.loadData(sortBy: sortBy, page: page + 1) { (response, error) in
+            queryItems.append(URLQueryItem(name: "page", value: String(page + 1)))
+            Model.sharedInstance.getData(type: Response.self, queryItems: queryItems) { (response, error) in
                 if let error = error {
                     print(error)
                 }
                 if let response = response{
                     self.movies.append(contentsOf: response.results)
                     self.page = response.page
+                    self.queryItems.remove(at: self.queryItems.count - 1)
                 }
                 DispatchQueue.main.async {
                     self.activityIndicator.removeFromSuperview()
