@@ -38,4 +38,15 @@ enum Path {
             return "/3/movie/\(id)/reviews"
         }
     }
+    
+//    private func getType<T: Decodable>() -> T? {
+//        switch self {
+//        case .movies:
+//            return Response.self as? T
+//        case .videos( _):
+//            return Response.self as? T
+//        case .reviews( _):
+//            return Response.self as? T
+//        }
+//    }
 }

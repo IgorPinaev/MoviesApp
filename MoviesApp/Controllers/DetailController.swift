@@ -22,27 +22,21 @@ class DetailController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if movie != nil {
-            titleLabel.text = movie?.title
-            originalTitleLabel.text = movie?.originalTitle
-            releaseLabel.text = movie?.releaseDate
-            voteLabel.text = movie?.voteAverage?.description
-            overviewLabel.text = movie?.overview
-            self.posterImage.image = UIImage(named: "movie")
-            
-            DispatchQueue.global().async {
-                if let image = self.movie?.posterPath {
-                    if let url = URL(string: "https://image.tmdb.org/t/p/original" + image){
-                        if let data = try? Data(contentsOf: url) {
-                            DispatchQueue.main.async {
-                                self.posterImage.image = UIImage(data: data)
-                            }
-                        }
-                    }
-                }
+        guard let movie = movie else {return}
+        titleLabel.text = movie.title
+        originalTitleLabel.text = movie.originalTitle
+        releaseLabel.text = movie.releaseDate
+        voteLabel.text = movie.voteAverage?.description
+        overviewLabel.text = movie.overview
+        self.posterImage.image = UIImage(named: "movie")
+        
+        DispatchQueue.global().async {
+            guard let image = self.movie?.posterPath,
+                let url = URL(string: "https://image.tmdb.org/t/p/original" + image),
+                let data = try? Data(contentsOf: url) else {return}
+            DispatchQueue.main.async {
+                self.posterImage.image = UIImage(data: data)
             }
-            
-            
         }
     }
 }

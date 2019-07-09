@@ -12,7 +12,7 @@ class Model: NSObject {
     
     static let sharedInstance = Model()
     private var isLoading = false
-//    
+//
 //    private let baseUrl: String = "https://api.themoviedb.org/3/discover/movie"
 //    private let trailersUrl = "https://api.themoviedb.org/3/movie/301528/videos"
 //    private let reviewsUrl = "https://api.themoviedb.org/3/movie/301528/reviews"
@@ -69,32 +69,33 @@ class Model: NSObject {
         return response
     }
     
-    func getData<T: Decodable>(type: T.Type, queryItems: [URLQueryItem], completionHandler: ((_ result: T?, _ error: String?)-> Void)?) {
+    func getData<T: Decodable>(type: T.Type, path: Path, queryItems: [URLQueryItem], completionHandler: ((_ result: T?, _ error: String?)-> Void)?) {
         guard !isLoading else {return}
         isLoading = true
         
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.themoviedb.org"
-        components.path = Path.movies.fullPath
+        components.path = path.fullPath
         components.queryItems = queryItems
         components.queryItems?.insert(URLQueryItem(name: "api_key", value: apiKey), at: 0)
         guard let url = components.url
             else {
-            isLoading = false
-            return
+                completionHandler?(nil, "The request failed")
+                isLoading = false
+                return
         }
         let session = URLSession(configuration: .default)
         let dataTask = session.dataTask(with: url) { (data, responce, error) in
             guard let data = data else {
                 if let error = error {
-                    print(error.localizedDescription)
+                    completionHandler?(nil, error.localizedDescription)
                 }
                 self.isLoading = false
                 return
             }
             
-            let response = self.parseJson(data: data, type: type)
+            let response = self.parseJson(data: data, type: T.self)
             completionHandler?(response, nil)
         }
         
