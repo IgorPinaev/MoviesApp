@@ -22,3 +22,20 @@ struct MovieStruct: Codable {
     let releaseDate: String?
     let voteAverage: Double?
 }
+
+enum Path {
+    case movies
+    case videos(id: String)
+    case reviews(id: String)
+    
+    var fullPath: String {
+        switch self {
+        case .movies:
+            return "/3/discover/movie"
+        case let .videos(id):
+            return "/3/movies/\(id)/videos"
+        case let .reviews(id):
+            return "/3/movie/\(id)/reviews"
+        }
+    }
+}
