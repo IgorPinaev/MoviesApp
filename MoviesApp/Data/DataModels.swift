@@ -25,12 +25,22 @@ struct MovieStruct: Codable {
 
 struct ResponseVideo: Codable {
     let id: Int
-    let results: [MovieStruct]
+    let results: [VideoStruct]
+}
+
+struct VideoStruct: Codable {
+    let name: String?
+    let key: String?
 }
 
 struct ResponseReview: Codable {
     let id: Int
-    let results: [MovieStruct]
+    let results: [ReviewStruct]
+}
+
+struct ReviewStruct: Codable {
+    let author: String?
+    let content: String?
 }
 
 enum Path {

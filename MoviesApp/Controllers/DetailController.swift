@@ -38,5 +38,12 @@ class DetailController: UIViewController {
                 self.posterImage.image = UIImage(data: data)
             }
         }
+        Model.sharedInstance.getData(type: ResponseVideo.self, path: .videos(id: movie.id!), queryItems: nil) { (response, error) in
+            print(response)
+        }
+        
+        Model.sharedInstance.getData(type: ResponseReview.self, path: .reviews(id: movie.id!), queryItems: nil) { (response, error) in
+            print(response)
+        }
     }
 }
