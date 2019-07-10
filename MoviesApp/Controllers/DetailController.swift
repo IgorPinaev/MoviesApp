@@ -10,12 +10,12 @@ import UIKit
 
 class DetailController: UIViewController {
     
-    @IBOutlet weak var posterImage: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var originalTitleLabel: UILabel!
-    @IBOutlet weak var releaseLabel: UILabel!
-    @IBOutlet weak var voteLabel: UILabel!
-    @IBOutlet weak var overviewLabel: UILabel!
+    @IBOutlet private weak var posterImage: UIImageView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var originalTitleLabel: UILabel!
+    @IBOutlet private weak var releaseLabel: UILabel!
+    @IBOutlet private weak var voteLabel: UILabel!
+    @IBOutlet private weak var overviewLabel: UILabel!
     
     var movie: MovieStruct?
     
@@ -38,11 +38,11 @@ class DetailController: UIViewController {
                 self.posterImage.image = UIImage(data: data)
             }
         }
-        Model.sharedInstance.getData(type: ResponseVideo.self, path: .videos(id: movie.id!), queryItems: nil) { (response, error) in
+        APIController.sharedInstance.getData(type: ResponseVideo.self, path: .videos(id: movie.id!), queryItems: nil) { (response, error) in
             print(response)
         }
         
-        Model.sharedInstance.getData(type: ResponseReview.self, path: .reviews(id: movie.id!), queryItems: nil) { (response, error) in
+        APIController.sharedInstance.getData(type: ResponseReview.self, path: .reviews(id: movie.id!), queryItems: nil) { (response, error) in
             print(response)
         }
     }

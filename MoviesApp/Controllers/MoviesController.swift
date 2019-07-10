@@ -36,7 +36,7 @@ class MoviesController: UIViewController {
     }
     
     @objc func refreshControlAction(_ sender: Any) {
-        Model.sharedInstance.getData(type: ResponseMovie.self, path: .movies, queryItems: queryItems) { (response, error) in
+        APIController.sharedInstance.getData(type: ResponseMovie.self, path: .movies, queryItems: queryItems) { (response, error) in
             if let error = error{
                 print(error)
             }
@@ -135,7 +135,7 @@ extension MoviesController: UICollectionViewDataSource, UICollectionViewDelegate
         if indexPath.row == movies.count - 4 {
             showActivityIndicator()
             queryItems.append(URLQueryItem(name: "page", value: String(page + 1)))
-            Model.sharedInstance.getData(type: ResponseMovie.self, path: .movies, queryItems: queryItems) { (response, error) in
+            APIController.sharedInstance.getData(type: ResponseMovie.self, path: .movies, queryItems: queryItems) { (response, error) in
                 if let error = error {
                     print(error)
                 }

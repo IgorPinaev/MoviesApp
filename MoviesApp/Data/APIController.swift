@@ -6,11 +6,11 @@
 //  Copyright © 2019 Igor Pinaev. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-class Model: NSObject {
+class APIController {
     
-    static let sharedInstance = Model()
+    static let sharedInstance = APIController()
     private var isLoading = false
 
     private let apiKey = "f4a4f31e66aac2fecccbb82d591aaa36"
