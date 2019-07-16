@@ -28,22 +28,21 @@ class DetailController: UIViewController {
         releaseLabel.text = movie.releaseDate
         voteLabel.text = movie.voteAverage?.description
         overviewLabel.text = movie.overview
-        self.posterImage.image = UIImage(named: "movie")
         
-        DispatchQueue.global().async {
-            guard let image = self.movie?.posterPath,
-                let url = URL(string: "https://image.tmdb.org/t/p/original" + image),
-                let data = try? Data(contentsOf: url) else {return}
-            DispatchQueue.main.async {
-                self.posterImage.image = UIImage(data: data)
-            }
+        guard let image = self.movie?.posterPath,
+            let url = URL(string: "https://image.tmdb.org/t/p/original" + image) else {
+                self.posterImage.image = UIImage(named: "movie")
+                return
         }
-        APIController.sharedInstance.getData(type: ResponseVideo.self, path: .videos(id: movie.id!), queryItems: nil) { (response, error) in
-            print(response)
-        }
+        posterImage.kf.setImage(with: url)
         
-        APIController.sharedInstance.getData(type: ResponseReview.self, path: .reviews(id: movie.id!), queryItems: nil) { (response, error) in
-            print(response)
-        }
+        
+        //        APIController.sharedInstance.getData(type: ResponseVideo.self, path: .videos(id: movie.id!), queryItems: nil) { (response, error) in
+        //            print(response)
+        //        }
+        //
+        //        APIController.sharedInstance.getData(type: ResponseReview.self, path: .reviews(id: movie.id!), queryItems: nil) { (response, error) in
+        //            print(response)
+        //        }
     }
 }

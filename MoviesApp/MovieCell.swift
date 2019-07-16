@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MovieCell: UICollectionViewCell {
     
@@ -15,15 +16,11 @@ class MovieCell: UICollectionViewCell {
     
     func initCell(name: String?, image: String?) {
         labelName.text = name
-        self.movieImage.image = UIImage(named: "movie")
-        
-        DispatchQueue.global().async {
-            guard let image = image,
-                let url = URL(string: "https://image.tmdb.org/t/p/w300" + image),
-                let data = try? Data(contentsOf: url) else {return}
-            DispatchQueue.main.async {
-                self.movieImage.image = UIImage(data: data)
-            }
+        guard let image = image,
+            let url = URL(string: "https://image.tmdb.org/t/p/w300" + image) else {
+                self.movieImage.image = UIImage(named: "movie")
+                return
         }
+        movieImage.kf.setImage(with: url)
     }
 }

@@ -140,10 +140,6 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="xIv-SX-XDc" id="H74-iK-Xee"/>
-                                    <outlet property="delegate" destination="xIv-SX-XDc" id="Ppp-HM-XcO"/>
-                                </connections>
                             </collectionView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UQY-sv-4De">
                                 <rect key="frame" x="0.0" y="64" width="375" height="29"/>
@@ -339,6 +335,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="M8d-Y2-9xE"/>
+        <segue reference="WGr-9Y-yNw"/>
     </inferredMetricsTieBreakers>
 </document>
