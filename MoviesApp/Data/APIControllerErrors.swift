@@ -25,3 +25,30 @@ enum APIControllerErrors: LocalizedError {
         }
     }
 }
+
+enum SortQuery{
+    case popularity
+    case voteAverage
+    case releaseDate
+    
+    var parameters: [URLQueryItem] {
+        var queryItems = [URLQueryItem(name: "api_key", value: "f4a4f31e66aac2fecccbb82d591aaa36"),
+                          URLQueryItem(name: "language", value: Locale.current.languageCode)]
+        switch self {
+        case .popularity:
+            queryItems.append(URLQueryItem(name: "sort_by", value: "popularity.desc"))
+            return queryItems
+        case .voteAverage:
+            queryItems.append(contentsOf:[URLQueryItem(name: "sort_by", value: "vote_average.desc"),
+                    URLQueryItem(name: "vote_count.gte", value: "5000")])
+        case .releaseDate:
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-d"
+            let date = dateFormatter.string(from:Date())
+            queryItems.append(contentsOf: [URLQueryItem(name: "sort_by", value: "primary_release_date.asc"),
+                    URLQueryItem(name: "primary_release_date.gte", value: date),
+                    URLQueryItem(name: "region", value: Locale.current.regionCode ?? "US")])
+        }
+        return queryItems
+    }
+}

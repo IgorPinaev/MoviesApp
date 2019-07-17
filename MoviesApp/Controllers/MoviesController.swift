@@ -11,9 +11,8 @@ import RxSwift
 import RxCocoa
 
 class MoviesController: UIViewController {
-    
-    @IBOutlet private weak var moviesCollection: UICollectionView!
-    @IBOutlet private weak var sortControl: UISegmentedControl!
+    @IBOutlet private var moviesCollection: UICollectionView!
+    @IBOutlet private var sortControl: UISegmentedControl!
     
     private let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
     private let container: UIView = UIView()
@@ -25,7 +24,7 @@ class MoviesController: UIViewController {
     private var queryItems: [URLQueryItem] = []
     
     private let disposeBag = DisposeBag()
-    private let behavior = BehaviorRelay<[MovieStruct]>(value: [])
+    private let movies = BehaviorRelay<[MovieStruct]>(value: [])
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +33,7 @@ class MoviesController: UIViewController {
         
         moviesCollection.rx.setDelegate(self).disposed(by: disposeBag)
         
-        behavior.bind(to: moviesCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
+        movies.bind(to: moviesCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
             cell.initCell(name: movie.title, image: movie.posterPath)
             }.disposed(by: disposeBag)
         
@@ -46,37 +45,25 @@ class MoviesController: UIViewController {
     }
     
     @objc func refreshControlAction(_ sender: Any) {
-        APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .movies, queryItems: queryItems)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] (response) in
-                self?.refreshControl.endRefreshing()
-                self?.moviesCollection.contentOffset = .zero
-                self?.behavior.accept(response.results)
-                }, onError: { (error) in
-                    print(error.localizedDescription)
-            })
-            .disposed(by: disposeBag)
+        loadMovies { [weak self] (response) in
+            self?.refreshControl.endRefreshing()
+            self?.moviesCollection.contentOffset = .zero
+            self?.movies.accept(response.results)
+        }
     }
     
     @IBAction func changeSortingAction(_ sender: UISegmentedControl) {
-        queryItems = []
         switch sortControl.selectedSegmentIndex {
         case 0:
-            queryItems.append(URLQueryItem(name: "sort_by", value: "popularity.desc"))
+            queryItems = SortQuery.popularity.parameters
         case 1:
-            queryItems.append(URLQueryItem(name: "sort_by", value: "vote_average.desc"))
-            queryItems.append(URLQueryItem(name: "vote_count.gte", value: "5000"))
+            queryItems = SortQuery.voteAverage.parameters
         case 2:
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-d"
-            let date = dateFormatter.string(from:Date())
-            queryItems.append(URLQueryItem(name: "sort_by", value: "primary_release_date.asc"))
-            queryItems.append(URLQueryItem(name: "primary_release_date.gte", value: date))
-            queryItems.append(URLQueryItem(name: "region", value: Locale.current.regionCode ?? "US"))
+            queryItems = SortQuery.releaseDate.parameters
         default:
             break
         }
-        queryItems.append(URLQueryItem(name: "language", value: Locale.current.languageCode))
+        page = 1
         refreshControlAction(self)
     }
     
@@ -97,7 +84,7 @@ class MoviesController: UIViewController {
     
     private func share(index: Int){
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let movie = behavior.value[index]
+        let movie = movies.value[index]
         
         if favourites.firstIndex(where: {$0.id == movie.id && $0.title == movie.title && $0.originalTitle == movie.originalTitle && $0.releaseDate == movie.releaseDate && $0.overview == movie.overview && $0.posterPath == movie.posterPath && $0.voteAverage == movie.voteAverage}) == nil {
             alert.addAction(UIAlertAction(title: "Add to favourites", style: .default, handler: { (action) in
@@ -116,31 +103,26 @@ class MoviesController: UIViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let movieInCell = behavior.value[indexPath.row]
+        let movieInCell = movies.value[indexPath.row]
         selectedMovie = movieInCell
         performSegue(withIdentifier: "goToDetail", sender: self)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == behavior.value.count - 4 {
+        if indexPath.row == movies.value.count - 4 {
             showActivityIndicator()
             queryItems.append(URLQueryItem(name: "page", value: String(page + 1)))
-            
-            APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .movies, queryItems: queryItems)
-                .observeOn(MainScheduler.instance)
-                .subscribe(onNext: { (response) in
-                    var movies = self.behavior.value
-                    movies.append(contentsOf: response.results)
-                    self.behavior.accept(movies)
-                    self.page = response.page
-                    self.queryItems.remove(at: self.queryItems.count - 1)
-                    self.activityIndicator.removeFromSuperview()
-                    self.container.removeFromSuperview()
-                }, onError: { (error) in
-                    print(error)
-                })
-                .disposed(by: disposeBag)
+        
+            loadMovies { [weak self] (response) in
+                var movies = self?.movies.value ?? []
+                movies.append(contentsOf: response.results)
+                self?.movies.accept(movies)
+                self?.page = response.page
+                self?.activityIndicator.removeFromSuperview()
+                self?.container.removeFromSuperview()
+                guard let count = self?.queryItems.count else {return}
+                self?.queryItems.remove(at: count - 1)
+            }
         }
     }
     
@@ -161,9 +143,19 @@ class MoviesController: UIViewController {
             destination.movie = selectedMovie
         }
     }
+    
+    private func loadMovies(completionHandler: (( _ response: ResponseMovie)-> Void)?) {
+        APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .movies, queryItems: queryItems)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { (response) in
+                completionHandler?(response)
+            }, onError: { (error) in
+                print(error)
+            })
+            .disposed(by: disposeBag)
+    }
 }
 extension MoviesController: UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let width = (UIScreen.main.bounds.width - 10) / 2 

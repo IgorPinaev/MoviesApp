@@ -9,13 +9,12 @@
 import UIKit
 
 class FavouritesController: UIViewController {
-
-    @IBOutlet private weak var favouritesCollection: UICollectionView!
+    @IBOutlet private var favouritesCollection: UICollectionView!
     private var selectedMovie: MovieStruct?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(FavouritesController.longPressGestureRecognized(_:)))
         favouritesCollection.addGestureRecognizer(longPress)
     }
@@ -24,17 +23,16 @@ class FavouritesController: UIViewController {
         super.viewWillAppear(animated)
         favouritesCollection.reloadData()
     }
-
     
     private func share (index: Int) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let movie = favourites[index]
         
-            alert.addAction(UIAlertAction(title: "Remove from favourites", style: .destructive, handler: { (action) in
-                CoreDataManager.sharedInstance.managedObjectContext.delete(movie)
-                CoreDataManager.sharedInstance.saveContext()
-                self.favouritesCollection.reloadData()
-            }))
+        alert.addAction(UIAlertAction(title: "Remove from favourites", style: .destructive, handler: { (action) in
+            CoreDataManager.sharedInstance.managedObjectContext.delete(movie)
+            CoreDataManager.sharedInstance.saveContext()
+            self.favouritesCollection.reloadData()
+        }))
         
         alert.addAction(UIAlertAction(title: "Detalize", style: .default, handler: { (action) in
             self.selectedMovie = movie.toStruct()
@@ -85,9 +83,7 @@ extension FavouritesController: UICollectionViewDelegate, UICollectionViewDataSo
 }
 
 extension FavouritesController: UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         let width = (UIScreen.main.bounds.width - 10) / 2
         return CGSize(width: width, height: width * 1.5)
     }

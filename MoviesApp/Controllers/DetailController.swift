@@ -12,13 +12,13 @@ import RxSwift
 
 class DetailController: UITableViewController {
     
-    @IBOutlet private weak var posterImage: UIImageView!
-    @IBOutlet private weak var titleLabel: UILabel!
-    @IBOutlet private weak var originalTitleLabel: UILabel!
-    @IBOutlet private weak var releaseLabel: UILabel!
-    @IBOutlet private weak var voteLabel: UILabel!
-    @IBOutlet private weak var overviewLabel: UILabel!
-    @IBOutlet private weak var contentTable: UITableView!
+    @IBOutlet private var posterImage: UIImageView!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var originalTitleLabel: UILabel!
+    @IBOutlet private var releaseLabel: UILabel!
+    @IBOutlet private var voteLabel: UILabel!
+    @IBOutlet private var overviewLabel: UILabel!
+    @IBOutlet private var contentTable: UITableView!
     
     var movie: MovieStruct?
     private let behavior = BehaviorRelay<[ReviewStruct]>(value: [])

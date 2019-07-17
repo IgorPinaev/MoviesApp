@@ -23,9 +23,8 @@ class APIController {
         components.scheme = "https"
         components.host = "api.themoviedb.org"
         components.path = path.fullPath
-        components.queryItems = [URLQueryItem(name: "api_key", value: self.apiKey)]
         if let queryItems = queryItems {
-            components.queryItems?.append(contentsOf: queryItems)
+            components.queryItems = queryItems
         }
         guard let url = components.url else {return Observable.error(APIControllerErrors.invalidURL)}
         let urlRequest = URLRequest(url: url)
