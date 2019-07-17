@@ -50,9 +50,10 @@ class MoviesController: UIViewController {
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] (response) in
                 self?.refreshControl.endRefreshing()
+                self?.moviesCollection.contentOffset = .zero
                 self?.behavior.accept(response.results)
                 }, onError: { (error) in
-                    print(error)
+                    print(error.localizedDescription)
             })
             .disposed(by: disposeBag)
     }
@@ -75,6 +76,7 @@ class MoviesController: UIViewController {
         default:
             break
         }
+        queryItems.append(URLQueryItem(name: "language", value: Locale.current.languageCode))
         refreshControlAction(self)
     }
     

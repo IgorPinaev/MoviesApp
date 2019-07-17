@@ -23,7 +23,7 @@ class APIController {
         components.scheme = "https"
         components.host = "api.themoviedb.org"
         components.path = path.fullPath
-        components.queryItems = [URLQueryItem(name: "api_key", value: self.apiKey), URLQueryItem(name: "language", value: Locale.current.languageCode)]
+        components.queryItems = [URLQueryItem(name: "api_key", value: self.apiKey)]
         if let queryItems = queryItems {
             components.queryItems?.append(contentsOf: queryItems)
         }

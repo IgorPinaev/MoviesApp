@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
-class DetailController: UIViewController {
+class DetailController: UITableViewController {
     
     @IBOutlet private weak var posterImage: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
@@ -16,8 +18,11 @@ class DetailController: UIViewController {
     @IBOutlet private weak var releaseLabel: UILabel!
     @IBOutlet private weak var voteLabel: UILabel!
     @IBOutlet private weak var overviewLabel: UILabel!
+    @IBOutlet private weak var contentTable: UITableView!
     
     var movie: MovieStruct?
+    private let behavior = BehaviorRelay<[ReviewStruct]>(value: [])
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +41,18 @@ class DetailController: UIViewController {
         }
         posterImage.kf.setImage(with: url)
         
+        behavior.bind(to: contentTable.rx.items(cellIdentifier: "ReviewCell", cellType: ReviewCell.self)) { (indexPath, review, cell) in
+            cell.initCell(author: review.author, review: review.content)
+            }.disposed(by: disposeBag)
+        
+        guard let id = movie.id else {return}
+        APIController.sharedInstance.loadData(type: ResponseReview.self, path: .reviews(id: id), queryItems: nil).observeOn(MainScheduler.instance)
+            .subscribe(onNext: { (response) in
+                self.behavior.accept(response.results)
+            }, onError: { (error) in
+                print(error.localizedDescription)
+            })
+            .disposed(by: disposeBag)
         
         //        APIController.sharedInstance.getData(type: ResponseVideo.self, path: .videos(id: movie.id!), queryItems: nil) { (response, error) in
         //            print(response)
