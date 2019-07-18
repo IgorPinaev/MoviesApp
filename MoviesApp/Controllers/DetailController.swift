@@ -46,20 +46,13 @@ class DetailController: UITableViewController {
             }.disposed(by: disposeBag)
         
         guard let id = movie.id else {return}
-        APIController.sharedInstance.loadData(type: ResponseReview.self, path: .reviews(id: id), queryItems: nil).observeOn(MainScheduler.instance)
+        APIController.sharedInstance.loadData(type: ResponseReview.self, path: .reviews(id: id), queryItems: SortQuery.onlyKey.parameters)
+            .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (response) in
                 self.behavior.accept(response.results)
             }, onError: { (error) in
                 print(error.localizedDescription)
             })
             .disposed(by: disposeBag)
-        
-        //        APIController.sharedInstance.getData(type: ResponseVideo.self, path: .videos(id: movie.id!), queryItems: nil) { (response, error) in
-        //            print(response)
-        //        }
-        //
-        //        APIController.sharedInstance.getData(type: ResponseReview.self, path: .reviews(id: movie.id!), queryItems: nil) { (response, error) in
-        //            print(response)
-        //        }
     }
 }

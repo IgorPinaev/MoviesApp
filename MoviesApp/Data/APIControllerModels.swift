@@ -26,14 +26,14 @@ enum APIControllerErrors: LocalizedError {
     }
 }
 
-enum SortQuery{
+enum SortQuery: Int{
     case popularity
     case voteAverage
     case releaseDate
+    case onlyKey
     
     var parameters: [URLQueryItem] {
-        var queryItems = [URLQueryItem(name: "api_key", value: "f4a4f31e66aac2fecccbb82d591aaa36"),
-                          URLQueryItem(name: "language", value: Locale.current.languageCode)]
+        var queryItems = [URLQueryItem(name: "api_key", value: "f4a4f31e66aac2fecccbb82d591aaa36")]
         switch self {
         case .popularity:
             queryItems.append(URLQueryItem(name: "sort_by", value: "popularity.desc"))
@@ -48,7 +48,11 @@ enum SortQuery{
             queryItems.append(contentsOf: [URLQueryItem(name: "sort_by", value: "primary_release_date.asc"),
                     URLQueryItem(name: "primary_release_date.gte", value: date),
                     URLQueryItem(name: "region", value: Locale.current.regionCode ?? "US")])
+        case .onlyKey:
+            return queryItems
         }
+        queryItems.append(URLQueryItem(name: "language", value: Locale.current.languageCode))
         return queryItems
     }
 }
+

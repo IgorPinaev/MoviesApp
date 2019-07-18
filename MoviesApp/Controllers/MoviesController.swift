@@ -18,7 +18,6 @@ class MoviesController: UIViewController {
     private let container: UIView = UIView()
     private let refreshControl = UIRefreshControl()
     
-    private var sortBy = ""
     private var selectedMovie: MovieStruct?
     private var page: Int = 1
     private var queryItems: [URLQueryItem] = []
@@ -32,7 +31,6 @@ class MoviesController: UIViewController {
         moviesCollection.refreshControl = refreshControl
         
         moviesCollection.rx.setDelegate(self).disposed(by: disposeBag)
-        
         movies.bind(to: moviesCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
             cell.initCell(name: movie.title, image: movie.posterPath)
             }.disposed(by: disposeBag)
@@ -45,24 +43,18 @@ class MoviesController: UIViewController {
     }
     
     @objc func refreshControlAction(_ sender: Any) {
-        loadMovies { [weak self] (response) in
+        loadMovies().subscribe(onNext: { [weak self] (response) in
             self?.refreshControl.endRefreshing()
             self?.moviesCollection.contentOffset = .zero
             self?.movies.accept(response.results)
-        }
+        }, onError: { (error) in
+            print(error.localizedDescription)
+        })
+        .disposed(by: disposeBag)
     }
     
     @IBAction func changeSortingAction(_ sender: UISegmentedControl) {
-        switch sortControl.selectedSegmentIndex {
-        case 0:
-            queryItems = SortQuery.popularity.parameters
-        case 1:
-            queryItems = SortQuery.voteAverage.parameters
-        case 2:
-            queryItems = SortQuery.releaseDate.parameters
-        default:
-            break
-        }
+        queryItems = SortQuery(rawValue: sortControl.selectedSegmentIndex)?.parameters ?? []
         page = 1
         refreshControlAction(self)
     }
@@ -102,30 +94,6 @@ class MoviesController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieInCell = movies.value[indexPath.row]
-        selectedMovie = movieInCell
-        performSegue(withIdentifier: "goToDetail", sender: self)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == movies.value.count - 4 {
-            showActivityIndicator()
-            queryItems.append(URLQueryItem(name: "page", value: String(page + 1)))
-        
-            loadMovies { [weak self] (response) in
-                var movies = self?.movies.value ?? []
-                movies.append(contentsOf: response.results)
-                self?.movies.accept(movies)
-                self?.page = response.page
-                self?.activityIndicator.removeFromSuperview()
-                self?.container.removeFromSuperview()
-                guard let count = self?.queryItems.count else {return}
-                self?.queryItems.remove(at: count - 1)
-            }
-        }
-    }
-    
     @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {
         let longPress = gestureRecognizer.location(in: moviesCollection)
         let indexPath = moviesCollection.indexPathForItem(at: longPress)
@@ -144,20 +112,41 @@ class MoviesController: UIViewController {
         }
     }
     
-    private func loadMovies(completionHandler: (( _ response: ResponseMovie)-> Void)?) {
-        APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .movies, queryItems: queryItems)
+    private func loadMovies() -> Observable<ResponseMovie>{
+        return APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .movies, queryItems: queryItems)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (response) in
-                completionHandler?(response)
-            }, onError: { (error) in
-                print(error)
+    }
+}
+extension MoviesController: UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieInCell = movies.value[indexPath.row]
+        selectedMovie = movieInCell
+        performSegue(withIdentifier: "goToDetail", sender: self)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == movies.value.count - 4 {
+            showActivityIndicator()
+            queryItems.append(URLQueryItem(name: "page", value: String(page + 1)))
+            
+            loadMovies().subscribe(onNext: { [weak self] (response) in
+                var movies = self?.movies.value ?? []
+                movies.append(contentsOf: response.results)
+                self?.movies.accept(movies)
+                self?.page = response.page
+                self?.activityIndicator.removeFromSuperview()
+                self?.container.removeFromSuperview()
+                guard let count = self?.queryItems.count else {return}
+                self?.queryItems.remove(at: count - 1)
+                }, onError: { (error) in
+                    print(error.localizedDescription)
             })
-            .disposed(by: disposeBag)
+                .disposed(by: disposeBag)
+        }
     }
 }
 extension MoviesController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         let width = (UIScreen.main.bounds.width - 10) / 2 
         return CGSize(width: width, height: width * 1.5)
     }
