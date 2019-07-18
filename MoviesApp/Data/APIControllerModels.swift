@@ -37,7 +37,6 @@ enum SortQuery: Int{
         switch self {
         case .popularity:
             queryItems.append(URLQueryItem(name: "sort_by", value: "popularity.desc"))
-            return queryItems
         case .voteAverage:
             queryItems.append(contentsOf:[URLQueryItem(name: "sort_by", value: "vote_average.desc"),
                     URLQueryItem(name: "vote_count.gte", value: "5000")])

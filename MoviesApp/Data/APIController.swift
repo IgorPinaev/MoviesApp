@@ -28,7 +28,8 @@ class APIController {
         }
         guard let url = components.url else {return Observable.error(APIControllerErrors.invalidURL)}
         let urlRequest = URLRequest(url: url)
-        return URLSession.shared.rx.data(request: urlRequest).flatMap({ (data) -> Observable<T> in
+        return URLSession.shared.rx.data(request: urlRequest)
+            .flatMap({ (data) -> Observable<T> in
             do{
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
