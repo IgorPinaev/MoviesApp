@@ -15,7 +15,6 @@ class APIController {
     static let sharedInstance = APIController()
     private var isLoading = false
     
-    private let apiKey = "f4a4f31e66aac2fecccbb82d591aaa36"
     private let youtube = "https://www.youtube.com/watch?v="
     
     func loadData<T: Decodable>(type: T.Type, path: Path, queryItems: [URLQueryItem]?) -> Observable<T> {

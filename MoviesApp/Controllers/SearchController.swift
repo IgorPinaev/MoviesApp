@@ -11,24 +11,29 @@ import RxSwift
 import RxCocoa
 
 class SearchController: UIViewController {
-
+    
     @IBOutlet private var searchCollection: UICollectionView!
     @IBOutlet private var searchBar: UISearchBar!
     
     private let disposeBag = DisposeBag()
     private let movies = BehaviorRelay<[MovieStruct]>(value: [])
+    private var selectedMovie: MovieStruct?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        searchCollection.rx.setDelegate(self).disposed(by: disposeBag)
+        
         movies.bind(to: searchCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
             cell.initCell(name: movie.title, image: movie.posterPath)
             }.disposed(by: disposeBag)
-
         
-        searchBar.rx.text.orEmpty
-        .distinctUntilChanged()
+        
+        searchBar.rx.text
+            .distinctUntilChanged()
+            .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
             .subscribe(onNext: { (query) in
-                APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .search, queryItems: [URLQueryItem(name: "api_key", value: "f4a4f31e66aac2fecccbb82d591aaa36"),
+                if query != "" {
+                APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .search, queryItems: [SortQuery.onlyKey.parameters[0],
                     URLQueryItem(name: "query", value: query)])
                     .observeOn(MainScheduler.instance)
                     .subscribe(onNext: { (response) in
@@ -37,15 +42,41 @@ class SearchController: UIViewController {
                         print(error.localizedDescription)
                     })
                     .disposed(by: self.disposeBag)
+                } else {
+                    self.movies.accept([])
+                }
             })
-        .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(SearchController.longPressGestureRecognized(_:)))
+        searchCollection.addGestureRecognizer(longPress)
     }
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        // Get the new view controller using segue.destination.
-//        // Pass the selected object to the new view controller.
-//    }
-
-
+    
+    @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {
+        let longPress = gestureRecognizer.location(in: searchCollection)
+        let indexPath = searchCollection.indexPathForItem(at: longPress)
+        if gestureRecognizer.state == UIGestureRecognizer.State.began {
+            if let index = indexPath?.row {
+//                share(index: index)
+            }
+            return
+        }
+    }
+    
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "goToDetail" {
+                guard let destination = segue.destination as? DetailController else {return}
+                destination.movie = selectedMovie
+            }
+        }
+    
+}
+extension SearchController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieInCell = movies.value[indexPath.row]
+        selectedMovie = movieInCell
+        performSegue(withIdentifier: "goToDetail", sender: self)
+    }
 }
 extension SearchController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
