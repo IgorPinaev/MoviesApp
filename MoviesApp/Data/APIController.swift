@@ -13,9 +13,6 @@ import RxCocoa
 class APIController {
     
     static let sharedInstance = APIController()
-    private var isLoading = false
-    
-    private let youtube = "https://www.youtube.com/watch?v="
     
     func loadData<T: Decodable>(type: T.Type, path: Path, queryItems: [URLQueryItem]?) -> Observable<T> {
         var components = URLComponents()
@@ -29,14 +26,14 @@ class APIController {
         let urlRequest = URLRequest(url: url)
         return URLSession.shared.rx.data(request: urlRequest)
             .flatMap({ (data) -> Observable<T> in
-            do{
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let response = try decoder.decode(T.self, from: data)
-                return Observable.just(response)
-            } catch {
-                return Observable.error(APIControllerErrors.decodingError)
-            }
-        })
+                do{
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let response = try decoder.decode(T.self, from: data)
+                    return Observable.just(response)
+                } catch {
+                    return Observable.error(APIControllerErrors.decodingError)
+                }
+            })
     }
 }

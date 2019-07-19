@@ -32,13 +32,3 @@ struct TrailerStruct: Codable {
     let name: String?
     let key: String?
 }
-
-struct ResponseReview: Codable {
-    let id: Int
-    let results: [ReviewStruct]
-}
-
-struct ReviewStruct: Codable {
-    let author: String?
-    let content: String?
-}
