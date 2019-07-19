@@ -23,12 +23,12 @@ struct MovieStruct: Codable {
     let voteAverage: Double?
 }
 
-struct ResponseVideo: Codable {
+struct ResponseTrailer: Codable {
     let id: Int
-    let results: [VideoStruct]
+    let results: [TrailerStruct]
 }
 
-struct VideoStruct: Codable {
+struct TrailerStruct: Codable {
     let name: String?
     let key: String?
 }
@@ -41,24 +41,4 @@ struct ResponseReview: Codable {
 struct ReviewStruct: Codable {
     let author: String?
     let content: String?
-}
-
-enum Path {
-    case movies
-    case videos(id: Int32)
-    case reviews(id: Int32)
-    case search
-    
-    var fullPath: String {
-        switch self {
-        case .movies:
-            return "/3/discover/movie"
-        case let .videos(id):
-            return "/3/movie/\(id)/videos"
-        case let .reviews(id):
-            return "/3/movie/\(id)/reviews"
-        case .search:
-            return "/3/search/movie"
-        }
-    }
 }

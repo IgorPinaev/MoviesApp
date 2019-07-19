@@ -32,7 +32,7 @@ class FavouritesController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        self.movies.accept(favourites)
+        movies.accept(favourites)
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(FavouritesController.longPressGestureRecognized(_:)))
         favouritesCollection.addGestureRecognizer(longPress)

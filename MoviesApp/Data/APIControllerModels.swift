@@ -26,6 +26,26 @@ enum APIControllerErrors: LocalizedError {
     }
 }
 
+enum Path {
+    case movies
+    case trailers(id: Int32)
+    case reviews(id: Int32)
+    case search
+    
+    var fullPath: String {
+        switch self {
+        case .movies:
+            return "/3/discover/movie"
+        case let .trailers(id):
+            return "/3/movie/\(id)/videos"
+        case let .reviews(id):
+            return "/3/movie/\(id)/reviews"
+        case .search:
+            return "/3/search/movie"
+        }
+    }
+}
+
 enum SortQuery: Int{
     case popularity
     case voteAverage

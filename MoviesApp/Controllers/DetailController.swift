@@ -9,6 +9,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import SafariServices
 
 class DetailController: UITableViewController {
     
@@ -21,7 +22,7 @@ class DetailController: UITableViewController {
     @IBOutlet private var contentTable: UITableView!
     
     var movie: MovieStruct?
-    private let behavior = BehaviorRelay<[ReviewStruct]>(value: [])
+    private let trailers = BehaviorRelay<[TrailerStruct]>(value: [])
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -41,18 +42,28 @@ class DetailController: UITableViewController {
         }
         posterImage.kf.setImage(with: url)
         
-        behavior.bind(to: contentTable.rx.items(cellIdentifier: "ReviewCell", cellType: ReviewCell.self)) { (indexPath, review, cell) in
-            cell.initCell(author: review.author, review: review.content)
+        trailers.bind(to: contentTable.rx.items(cellIdentifier: "TrailerCell", cellType: TrailerCell.self)) { (indexPath, trailer, cell) in
+            cell.initCell(name: trailer.name)
             }.disposed(by: disposeBag)
         
         guard let id = movie.id else {return}
-        APIController.sharedInstance.loadData(type: ResponseReview.self, path: .reviews(id: id), queryItems: SortQuery.onlyKey.parameters)
+        APIController.sharedInstance.loadData(type: ResponseTrailer.self, path: .trailers(id: id), queryItems: SortQuery.popularity.parameters)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { (response) in
-                self.behavior.accept(response.results)
-            }, onError: { (error) in
-                print(error.localizedDescription)
+            .subscribe(onNext: { [weak self] (response) in
+                self?.trailers.accept(response.results)
+                }, onError: { (error) in
+                    print(error.localizedDescription)
+            })
+            .disposed(by: disposeBag)
+        
+        contentTable.rx.itemSelected
+            .subscribe(onNext: { [weak self] (indexPath) in
+                if let url = URL(string:"https://www.youtube.com/watch?v=" + (self?.trailers.value[indexPath.row].key)!) {
+                    let safariVC = SFSafariViewController(url: url)
+                    self?.present(safariVC, animated: true, completion: nil)
+                }
             })
             .disposed(by: disposeBag)
     }
+    
 }
