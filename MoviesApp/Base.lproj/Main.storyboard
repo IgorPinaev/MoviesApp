@@ -63,10 +63,6 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="2aA-Xh-8W8" id="Db9-Py-hdk"/>
-                                    <outlet property="delegate" destination="2aA-Xh-8W8" id="fy5-uk-7Vs"/>
-                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -561,6 +557,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Zfd-g4-aOi"/>
+        <segue reference="1KQ-3g-ErF"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -7,41 +7,35 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class FavouritesController: UIViewController {
     @IBOutlet private var favouritesCollection: UICollectionView!
     private var selectedMovie: MovieStruct?
+    private let disposeBag = DisposeBag()
+    private let movies = BehaviorRelay<[Movie]>(value: [])
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        favouritesCollection.rx.setDelegate(self).disposed(by: disposeBag)
+        movies.bind(to: favouritesCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
+            cell.initCell(name: movie.title, image: movie.posterPath)
+            }.disposed(by: disposeBag)
+        
+        favouritesCollection.rx.itemSelected
+            .subscribe(onNext: { [weak self] (indexPath) in
+                let movieInCell = self?.movies.value[indexPath.row].toStruct()
+                self?.selectedMovie = movieInCell
+                self?.performSegue(withIdentifier: "goToDetail", sender: self)
+            })
+            .disposed(by: disposeBag)
+        
+        self.movies.accept(favourites)
+        
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(FavouritesController.longPressGestureRecognized(_:)))
         favouritesCollection.addGestureRecognizer(longPress)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        favouritesCollection.reloadData()
-    }
-}
-
-extension FavouritesController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return favourites.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCell
-        let movieInCell = favourites[indexPath.row].toStruct()
-        cell.initCell(name: movieInCell.title, image: movieInCell.posterPath)
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieInCell = favourites[indexPath.row]
-        selectedMovie = movieInCell.toStruct()
-        performSegue(withIdentifier: "goToDetail", sender: self)
     }
     
     @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {

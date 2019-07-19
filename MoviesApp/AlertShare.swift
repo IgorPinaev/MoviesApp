@@ -26,12 +26,6 @@ extension UIViewController {
                 CoreDataManager.sharedInstance.saveContext()
             }))
         }
-        
-//        alert.addAction(UIAlertAction(title: "Detalize", style: .default, handler: { (action) in
-//
-//            self.selectedMovie = movie
-//            self.performSegue(withIdentifier: "goToDetail", sender: self)
-//        }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(alert, animated: true, completion: nil)

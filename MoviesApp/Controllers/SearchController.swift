@@ -27,7 +27,6 @@ class SearchController: UIViewController {
             cell.initCell(name: movie.title, image: movie.posterPath)
             }.disposed(by: disposeBag)
         
-        
         searchBar.rx.text
             .distinctUntilChanged()
             .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
