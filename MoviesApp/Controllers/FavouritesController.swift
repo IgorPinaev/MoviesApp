@@ -23,25 +23,6 @@ class FavouritesController: UIViewController {
         super.viewWillAppear(animated)
         favouritesCollection.reloadData()
     }
-    
-    private func share (index: Int) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let movie = favourites[index]
-        
-        alert.addAction(UIAlertAction(title: "Remove from favourites", style: .destructive, handler: { (action) in
-            CoreDataManager.sharedInstance.managedObjectContext.delete(movie)
-            CoreDataManager.sharedInstance.saveContext()
-            self.favouritesCollection.reloadData()
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Detalize", style: .default, handler: { (action) in
-            self.selectedMovie = movie.toStruct()
-            self.performSegue(withIdentifier: "goToDetail", sender: self)
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        present(alert, animated: true, completion: nil)
-    }
 }
 
 extension FavouritesController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -68,7 +49,7 @@ extension FavouritesController: UICollectionViewDelegate, UICollectionViewDataSo
         let indexPath = favouritesCollection.indexPathForItem(at: longPress)
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
             if let index = indexPath?.row {
-                share(index: index)
+                share(movie: favourites[index].toStruct())
             }
             return
         }

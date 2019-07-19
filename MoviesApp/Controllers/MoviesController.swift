@@ -38,6 +38,14 @@ class MoviesController: UIViewController {
         sortControl.selectedSegmentIndex = 0
         changeSortingAction(sortControl)
         
+        moviesCollection.rx.itemSelected
+            .subscribe(onNext: { [weak self] (indexPath) in
+                let movieInCell = self?.movies.value[indexPath.row]
+                self?.selectedMovie = movieInCell
+                self?.performSegue(withIdentifier: "goToDetail", sender: self)
+            })
+            .disposed(by: disposeBag)
+        
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(MoviesController.longPressGestureRecognized(_:)))
         moviesCollection.addGestureRecognizer(longPress)
     }
@@ -74,32 +82,12 @@ class MoviesController: UIViewController {
         activityIndicator.startAnimating()
     }
     
-    private func share(index: Int){
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let movie = movies.value[index]
-        
-        if favourites.firstIndex(where: {$0.id == movie.id && $0.title == movie.title && $0.originalTitle == movie.originalTitle && $0.releaseDate == movie.releaseDate && $0.overview == movie.overview && $0.posterPath == movie.posterPath && $0.voteAverage == movie.voteAverage}) == nil {
-            alert.addAction(UIAlertAction(title: "Add to favourites", style: .default, handler: { (action) in
-                _ = Movie.addMovie(result: movie)
-                CoreDataManager.sharedInstance.saveContext()
-            }))
-        }
-        
-        alert.addAction(UIAlertAction(title: "Detalize", style: .default, handler: { (action) in
-            self.selectedMovie = movie
-            self.performSegue(withIdentifier: "goToDetail", sender: self)
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
     @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {
         let longPress = gestureRecognizer.location(in: moviesCollection)
         let indexPath = moviesCollection.indexPathForItem(at: longPress)
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
             if let index = indexPath?.row {
-                share(index: index)
+                share(movie: movies.value[index])
             }
             return
         }
@@ -118,12 +106,6 @@ class MoviesController: UIViewController {
     }
 }
 extension MoviesController: UICollectionViewDelegate{
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieInCell = movies.value[indexPath.row]
-        selectedMovie = movieInCell
-        performSegue(withIdentifier: "goToDetail", sender: self)
-    }
-    
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == movies.value.count - 4 {
             showActivityIndicator()

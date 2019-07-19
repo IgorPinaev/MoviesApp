@@ -11,6 +11,7 @@
 		7D00F5E822DC859E00FD787D /* APIControllerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D00F5E722DC859E00FD787D /* APIControllerModels.swift */; };
 		7D23144D22BBA010001E98BD /* MoviesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23144C22BBA010001E98BD /* MoviesController.swift */; };
 		7D24C07122E06CAC00D5DB2F /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D24C07022E06CAC00D5DB2F /* SearchController.swift */; };
+		7D24C07322E1AFE100D5DB2F /* AlertShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D24C07222E1AFE100D5DB2F /* AlertShare.swift */; };
 		7D4FE99B22BB52F400077594 /* Movie+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4FE99922BB52F400077594 /* Movie+CoreDataClass.swift */; };
 		7D4FE99C22BB52F400077594 /* Movie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4FE99A22BB52F400077594 /* Movie+CoreDataProperties.swift */; };
 		7D4FE99E22BB53BA00077594 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4FE99D22BB53BA00077594 /* CoreDataManager.swift */; };
@@ -33,6 +34,7 @@
 		7D00F5E722DC859E00FD787D /* APIControllerModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIControllerModels.swift; sourceTree = "<group>"; };
 		7D23144C22BBA010001E98BD /* MoviesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesController.swift; sourceTree = "<group>"; };
 		7D24C07022E06CAC00D5DB2F /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		7D24C07222E1AFE100D5DB2F /* AlertShare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AlertShare.swift; path = MoviesApp/AlertShare.swift; sourceTree = SOURCE_ROOT; };
 		7D4FE99922BB52F400077594 /* Movie+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+CoreDataClass.swift"; sourceTree = "<group>"; };
 		7D4FE99A22BB52F400077594 /* Movie+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		7D4FE99D22BB53BA00077594 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				7D23144C22BBA010001E98BD /* MoviesController.swift */,
 				7D74C16722C3437500298124 /* DetailController.swift */,
 				7D24C07022E06CAC00D5DB2F /* SearchController.swift */,
+				7D24C07222E1AFE100D5DB2F /* AlertShare.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 				7D9DDC2222B260D0002C13E9 /* AppDelegate.swift in Sources */,
 				7DBE75B522DDEF0C00AC6848 /* ReviewCell.swift in Sources */,
 				7D9DDC3F22B2645F002C13E9 /* FavouritesController.swift in Sources */,
+				7D24C07322E1AFE100D5DB2F /* AlertShare.swift in Sources */,
 				7D4FE99E22BB53BA00077594 /* CoreDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

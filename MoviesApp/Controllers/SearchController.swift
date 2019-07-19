@@ -33,18 +33,25 @@ class SearchController: UIViewController {
             .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
             .subscribe(onNext: { (query) in
                 if query != "" {
-                APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .search, queryItems: [SortQuery.onlyKey.parameters[0],
-                    URLQueryItem(name: "query", value: query)])
-                    .observeOn(MainScheduler.instance)
-                    .subscribe(onNext: { (response) in
-                        self.movies.accept(response.results)
-                    }, onError: { (error) in
-                        print(error.localizedDescription)
-                    })
-                    .disposed(by: self.disposeBag)
+                    APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .search, queryItems: [SortQuery.onlyKey.parameters[0], URLQueryItem(name: "query", value: query)])
+                        .observeOn(MainScheduler.instance)
+                        .subscribe(onNext: { (response) in
+                            self.movies.accept(response.results)
+                        }, onError: { (error) in
+                            print(error.localizedDescription)
+                        })
+                        .disposed(by: self.disposeBag)
                 } else {
                     self.movies.accept([])
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        searchCollection.rx.itemSelected
+            .subscribe(onNext: { [weak self] (indexPath) in
+                let movieInCell = self?.movies.value[indexPath.row]
+                self?.selectedMovie = movieInCell
+                self?.performSegue(withIdentifier: "goToDetail", sender: self)
             })
             .disposed(by: disposeBag)
         
@@ -57,25 +64,16 @@ class SearchController: UIViewController {
         let indexPath = searchCollection.indexPathForItem(at: longPress)
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
             if let index = indexPath?.row {
-//                share(index: index)
+                share(movie: movies.value[index])
             }
             return
         }
     }
-    
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            if segue.identifier == "goToDetail" {
-                guard let destination = segue.destination as? DetailController else {return}
-                destination.movie = selectedMovie
-            }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToDetail" {
+            guard let destination = segue.destination as? DetailController else {return}
+            destination.movie = selectedMovie
         }
-    
-}
-extension SearchController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieInCell = movies.value[indexPath.row]
-        selectedMovie = movieInCell
-        performSegue(withIdentifier: "goToDetail", sender: self)
     }
 }
 extension SearchController: UICollectionViewDelegateFlowLayout {
