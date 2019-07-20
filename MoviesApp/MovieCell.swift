@@ -16,11 +16,9 @@ class MovieCell: UICollectionViewCell {
     
     func initCell(name: String?, image: String?) {
         labelName.text = name
-        guard let image = image,
-            let url = URL(string: "https://image.tmdb.org/t/p/w300" + image) else {
-                self.movieImage.image = UIImage(named: "movie")
-                return
-        }
-        movieImage.kf.setImage(with: url)
+
+        guard let image = image else {return}
+        let url = URL(string: "https://image.tmdb.org/t/p/w300" + image)
+        movieImage.kf.setImage(with: url, placeholder: UIImage(named: "movie"))
     }
 }

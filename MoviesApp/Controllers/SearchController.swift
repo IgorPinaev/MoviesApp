@@ -63,7 +63,7 @@ class SearchController: UIViewController {
         let indexPath = searchCollection.indexPathForItem(at: longPress)
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
             if let index = indexPath?.row {
-                share(movie: movies.value[index])
+                share(movie: movies.value[index], completionHandler: nil)
             }
             return
         }

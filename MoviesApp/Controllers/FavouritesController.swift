@@ -32,10 +32,13 @@ class FavouritesController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        movies.accept(favourites)
-        
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(FavouritesController.longPressGestureRecognized(_:)))
         favouritesCollection.addGestureRecognizer(longPress)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        movies.accept(favourites)
     }
     
     @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {
@@ -43,7 +46,9 @@ class FavouritesController: UIViewController {
         let indexPath = favouritesCollection.indexPathForItem(at: longPress)
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
             if let index = indexPath?.row {
-                share(movie: favourites[index].toStruct())
+                share(movie: favourites[index].toStruct()) {
+                    self.movies.accept(favourites)
+                }
             }
             return
         }

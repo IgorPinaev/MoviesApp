@@ -10,19 +10,18 @@ import Foundation
 import UIKit
 
 extension UIViewController {
-    func share(movie: MovieStruct) {
+    func share(movie: MovieStruct, completionHandler: (()-> Void)?) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let favouriteIndex = favourites.firstIndex(where: {$0.id == movie.id && $0.title == movie.title && $0.originalTitle == movie.originalTitle && $0.releaseDate == movie.releaseDate && $0.overview == movie.overview && $0.posterPath == movie.posterPath && $0.voteAverage == movie.voteAverage})
-        
-        if favouriteIndex == nil {
-            alert.addAction(UIAlertAction(title: "Add to favourites", style: .default, handler: { (action) in
-                _ = Movie.addMovie(result: movie)
+        if let favouriteIndex = favourites.firstIndex(where: {$0.id == movie.id && $0.title == movie.title && $0.originalTitle == movie.originalTitle && $0.releaseDate == movie.releaseDate && $0.overview == movie.overview && $0.posterPath == movie.posterPath && $0.voteAverage == movie.voteAverage}) {
+            alert.addAction(UIAlertAction(title: "Remove from favourites", style: .destructive, handler: { (action) in
+                CoreDataManager.sharedInstance.managedObjectContext.delete(favourites[favouriteIndex])
                 CoreDataManager.sharedInstance.saveContext()
+                completionHandler?()
             }))
         } else {
-            alert.addAction(UIAlertAction(title: "Remove from favourites", style: .destructive, handler: { (action) in
-                CoreDataManager.sharedInstance.managedObjectContext.delete(favourites[favouriteIndex!])
+            alert.addAction(UIAlertAction(title: "Add to favourites", style: .default, handler: { (action) in
+                _ = Movie.addMovie(result: movie)
                 CoreDataManager.sharedInstance.saveContext()
             }))
         }
