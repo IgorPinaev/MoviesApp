@@ -35,12 +35,9 @@ class DetailController: UITableViewController {
         voteLabel.text = movie.voteAverage?.description
         overviewLabel.text = movie.overview
         
-        guard let image = self.movie?.posterPath,
-            let url = URL(string: "https://image.tmdb.org/t/p/original" + image) else {
-                self.posterImage.image = UIImage(named: "movie")
-                return
-        }
-        posterImage.kf.setImage(with: url)
+        let image = self.movie?.posterPath ?? ""
+        let url = URL(string: "https://image.tmdb.org/t/p/original" + image)
+        posterImage.kf.setImage(with: url, placeholder: UIImage(named: "movie"))
         
         trailers.bind(to: contentTable.rx.items(cellIdentifier: "TrailerCell", cellType: TrailerCell.self)) { (indexPath, trailer, cell) in
             cell.initCell(name: trailer.name)
@@ -65,5 +62,4 @@ class DetailController: UITableViewController {
             })
             .disposed(by: disposeBag)
     }
-    
 }

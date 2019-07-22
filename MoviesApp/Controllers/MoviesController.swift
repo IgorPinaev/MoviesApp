@@ -52,13 +52,15 @@ class MoviesController: UIViewController {
     
     @objc func refreshControlAction(_ sender: Any) {
         loadMovies().subscribe(onNext: { [weak self] (response) in
-            self?.refreshControl.endRefreshing()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(500), execute: {
+                self?.refreshControl.endRefreshing()
+            })
             self?.moviesCollection.contentOffset = .zero
             self?.movies.accept(response.results)
-        }, onError: { (error) in
-            print(error.localizedDescription)
+            }, onError: { (error) in
+                print(error.localizedDescription)
         })
-        .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
     }
     
     @IBAction func changeSortingAction(_ sender: UISegmentedControl) {

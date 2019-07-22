@@ -9,7 +9,6 @@
 import UIKit
 
 class TrailerCell: UITableViewCell {
-
     @IBOutlet private weak var labelTrailer: UILabel!
     
     func initCell(name: String?) {
