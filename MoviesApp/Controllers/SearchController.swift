@@ -24,7 +24,7 @@ class SearchController: UIViewController {
         searchCollection.rx.setDelegate(self).disposed(by: disposeBag)
         
         movies.bind(to: searchCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
-            cell.initCell(name: movie.title, image: movie.posterPath)
+            cell.initCell(name: movie.title, rating: movie.voteAverage, image: movie.posterPath)
             }.disposed(by: disposeBag)
         
         searchBar.rx.text

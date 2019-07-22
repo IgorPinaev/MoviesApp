@@ -55,11 +55,16 @@ class DetailController: UITableViewController {
         
         contentTable.rx.itemSelected
             .subscribe(onNext: { [weak self] (indexPath) in
+                self?.contentTable.deselectRow(at: indexPath, animated: true)
                 if let url = URL(string:"https://www.youtube.com/watch?v=" + (self?.trailers.value[indexPath.row].key)!) {
                     let safariVC = SFSafariViewController(url: url)
                     self?.present(safariVC, animated: true, completion: nil)
                 }
             })
             .disposed(by: disposeBag)
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

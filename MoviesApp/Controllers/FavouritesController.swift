@@ -21,7 +21,7 @@ class FavouritesController: UIViewController {
         
         favouritesCollection.rx.setDelegate(self).disposed(by: disposeBag)
         movies.bind(to: favouritesCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
-            cell.initCell(name: movie.title, image: movie.posterPath)
+            cell.initCell(name: movie.title, rating: movie.voteAverage, image: movie.posterPath)
             }.disposed(by: disposeBag)
         
         favouritesCollection.rx.itemSelected

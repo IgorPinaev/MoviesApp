@@ -32,7 +32,7 @@ class MoviesController: UIViewController {
         
         moviesCollection.rx.setDelegate(self).disposed(by: disposeBag)
         movies.bind(to: moviesCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
-            cell.initCell(name: movie.title, image: movie.posterPath)
+            cell.initCell(name: movie.title, rating: movie.voteAverage, image: movie.posterPath)
             }.disposed(by: disposeBag)
         
         sortControl.selectedSegmentIndex = 0
@@ -54,9 +54,9 @@ class MoviesController: UIViewController {
         loadMovies().subscribe(onNext: { [weak self] (response) in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(500), execute: {
                 self?.refreshControl.endRefreshing()
-            })
-            self?.moviesCollection.contentOffset = .zero
-            self?.movies.accept(response.results)
+                self?.moviesCollection.contentOffset = .zero
+                self?.movies.accept(response.results)
+                })
             }, onError: { (error) in
                 print(error.localizedDescription)
         })
@@ -131,7 +131,7 @@ extension MoviesController: UICollectionViewDelegate{
 }
 extension MoviesController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (UIScreen.main.bounds.width - 10) / 2 
-        return CGSize(width: width, height: width * 1.5)
+        let height = (UIScreen.main.bounds.height - 10) / 5
+        return CGSize(width: UIScreen.main.bounds.width, height: height)
     }
 }
