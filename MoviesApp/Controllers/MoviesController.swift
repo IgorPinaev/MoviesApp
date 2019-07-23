@@ -133,7 +133,7 @@ extension MoviesController: UICollectionViewDelegate{
 }
 extension MoviesController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = (UIScreen.main.bounds.height - 10) / 5
-        return CGSize(width: UIScreen.main.bounds.width, height: height)
+        let width = (UIScreen.main.bounds.width - 10) / 2
+        return CGSize(width: width, height: width * 1.5)
     }
 }
