@@ -7,14 +7,13 @@
 //
 
 import UIKit
-import Foundation
 
 class StarImageView: UIImageView {
     
     enum State: String {
-        case full = "full"
-        case half = "half"
-        case empty = "empty"
+        case full
+        case half
+        case empty
     }
     
     var state: State? {

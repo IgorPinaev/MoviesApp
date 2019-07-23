@@ -22,6 +22,7 @@ class SearchController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         searchCollection.rx.setDelegate(self).disposed(by: disposeBag)
+        searchCollection.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: "MovieCell")
         
         movies.bind(to: searchCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
             cell.initCell(name: movie.title, rating: movie.voteAverage, image: movie.posterPath)

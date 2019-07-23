@@ -28,6 +28,7 @@
 		7D9DDC3F22B2645F002C13E9 /* FavouritesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9DDC3E22B2645F002C13E9 /* FavouritesController.swift */; };
 		7DBE75B522DDEF0C00AC6848 /* TrailerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBE75B422DDEF0C00AC6848 /* TrailerCell.swift */; };
 		7DDE2DD222E6DAD2002C80DA /* AlertShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE2DD122E6DAD2002C80DA /* AlertShare.swift */; };
+		7DDE2DD922E705F0002C80DA /* MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DDE2DD822E705F0002C80DA /* MovieCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		7D9DDC3E22B2645F002C13E9 /* FavouritesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesController.swift; sourceTree = "<group>"; };
 		7DBE75B422DDEF0C00AC6848 /* TrailerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailerCell.swift; sourceTree = "<group>"; };
 		7DDE2DD122E6DAD2002C80DA /* AlertShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertShare.swift; sourceTree = "<group>"; };
+		7DDE2DD822E705F0002C80DA /* MovieCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCell.xib; sourceTree = "<group>"; };
 		C3707BB6B70195E730B66CD5 /* Pods-MoviesApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoviesApp.release.xcconfig"; path = "Target Support Files/Pods-MoviesApp/Pods-MoviesApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,6 +165,7 @@
 			children = (
 				7D9DDC2522B260D0002C13E9 /* Main.storyboard */,
 				7D9DDC2D22B260D2002C13E9 /* LaunchScreen.storyboard */,
+				7DDE2DD822E705F0002C80DA /* MovieCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 			files = (
 				7D9DDC2F22B260D2002C13E9 /* LaunchScreen.storyboard in Resources */,
 				7D9DDC2C22B260D2002C13E9 /* Assets.xcassets in Resources */,
+				7DDE2DD922E705F0002C80DA /* MovieCell.xib in Resources */,
 				7D9DDC2722B260D0002C13E9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

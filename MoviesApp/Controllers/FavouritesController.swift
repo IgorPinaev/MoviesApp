@@ -18,8 +18,10 @@ class FavouritesController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         favouritesCollection.rx.setDelegate(self).disposed(by: disposeBag)
+        favouritesCollection.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: "MovieCell")
+        
         movies.bind(to: favouritesCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
             cell.initCell(name: movie.title, rating: movie.voteAverage, image: movie.posterPath)
             }.disposed(by: disposeBag)

@@ -31,6 +31,8 @@ class MoviesController: UIViewController {
         moviesCollection.refreshControl = refreshControl
         
         moviesCollection.rx.setDelegate(self).disposed(by: disposeBag)
+        moviesCollection.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: "MovieCell")
+        
         movies.bind(to: moviesCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
             cell.initCell(name: movie.title, rating: movie.voteAverage, image: movie.posterPath)
             }.disposed(by: disposeBag)
