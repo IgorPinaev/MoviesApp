@@ -66,7 +66,7 @@ class FavouritesController: UIViewController {
 
 extension FavouritesController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (UIScreen.main.bounds.width - 10) / 2
+        let width = (UIScreen.main.bounds.width - 10 - 16) / 2
         return CGSize(width: width, height: width * 1.5)
     }
 }
