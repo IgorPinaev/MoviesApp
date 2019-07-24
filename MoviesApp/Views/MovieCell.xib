@@ -32,13 +32,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h87-tb-piN">
-                                <rect key="frame" x="494.5" y="25" width="37.5" height="17"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                <rect key="frame" x="517.5" y="16" width="30.5" height="13.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="3T5-E3-4Os" customClass="RatingView" customModule="MoviesApp" customModuleProvider="target">
-                                <rect key="frame" x="478" y="10" width="70" height="10"/>
+                                <rect key="frame" x="442.5" y="16" width="70" height="10"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AGk-OX-PDy" customClass="StarImageView" customModule="MoviesApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="10" height="10"/>
@@ -73,11 +73,11 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="7D4-eG-H1o" secondAttribute="bottom" constant="16" id="2CR-33-fQu"/>
                             <constraint firstAttribute="trailing" secondItem="7D4-eG-H1o" secondAttribute="trailing" constant="16" id="3I8-iz-5Wk"/>
-                            <constraint firstItem="h87-tb-piN" firstAttribute="top" secondItem="3T5-E3-4Os" secondAttribute="bottom" constant="5" id="H1K-Gc-eWx"/>
-                            <constraint firstItem="3T5-E3-4Os" firstAttribute="top" secondItem="Z5v-yU-lGw" secondAttribute="top" constant="10" id="JNI-k8-4wB"/>
-                            <constraint firstAttribute="trailing" secondItem="3T5-E3-4Os" secondAttribute="trailing" constant="16" id="Nwh-HA-LFM"/>
+                            <constraint firstAttribute="trailing" secondItem="h87-tb-piN" secondAttribute="trailing" constant="16" id="78R-FG-ZeC"/>
+                            <constraint firstItem="3T5-E3-4Os" firstAttribute="top" secondItem="Z5v-yU-lGw" secondAttribute="top" constant="16" id="JNI-k8-4wB"/>
                             <constraint firstItem="7D4-eG-H1o" firstAttribute="leading" secondItem="Z5v-yU-lGw" secondAttribute="leading" constant="16" id="WKh-0G-7iF"/>
-                            <constraint firstItem="h87-tb-piN" firstAttribute="centerX" secondItem="3T5-E3-4Os" secondAttribute="centerX" id="WvC-jF-Boj"/>
+                            <constraint firstItem="h87-tb-piN" firstAttribute="leading" secondItem="3T5-E3-4Os" secondAttribute="trailing" constant="5" id="jgd-4p-2Da"/>
+                            <constraint firstItem="h87-tb-piN" firstAttribute="top" secondItem="Z5v-yU-lGw" secondAttribute="top" constant="16" id="nH8-2b-p2h"/>
                         </constraints>
                     </view>
                 </subviews>

@@ -29,7 +29,8 @@ class MoviesController: UIViewController {
         super.viewDidLoad()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
         moviesCollection.refreshControl = refreshControl
-        
+        setActivityIndicator()
+    
         moviesCollection.rx.setDelegate(self).disposed(by: disposeBag)
         moviesCollection.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: "MovieCell")
         
@@ -68,22 +69,15 @@ class MoviesController: UIViewController {
     @IBAction func changeSortingAction(_ sender: UISegmentedControl) {
         queryItems = SortQuery(rawValue: sortControl.selectedSegmentIndex)?.parameters ?? []
         page = 1
+        movies.accept([])
+        refreshControl.beginRefreshing()
         refreshControlAction(self)
     }
     
-    func showActivityIndicator() {
+    func setActivityIndicator() {
         activityIndicator.hidesWhenStopped = true
         activityIndicator.center = view.center
-        
-        container.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
-        container.center = view.center
-        container.backgroundColor = UIColor(white: 0.6, alpha: 0.8)
-        container.clipsToBounds = true
-        container.layer.cornerRadius = 10
-        
-        view.addSubview(container)
         view.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
     }
     
     @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {
@@ -112,7 +106,7 @@ class MoviesController: UIViewController {
 extension MoviesController: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == movies.value.count - 4 {
-            showActivityIndicator()
+            activityIndicator.startAnimating()
             queryItems.append(URLQueryItem(name: "page", value: String(page + 1)))
             
             loadMovies().subscribe(onNext: { [weak self] (response) in
@@ -120,8 +114,7 @@ extension MoviesController: UICollectionViewDelegate{
                 movies.append(contentsOf: response.results)
                 self?.movies.accept(movies)
                 self?.page = response.page
-                self?.activityIndicator.removeFromSuperview()
-                self?.container.removeFromSuperview()
+                self?.activityIndicator.stopAnimating()
                 guard let count = self?.queryItems.count else {return}
                 self?.queryItems.remove(at: count - 1)
                 }, onError: { (error) in

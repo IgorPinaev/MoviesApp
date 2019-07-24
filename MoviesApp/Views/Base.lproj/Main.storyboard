@@ -25,7 +25,7 @@
                                     <size key="itemSize" width="369" height="285"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="8" minY="8" maxX="8" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
@@ -57,9 +57,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Movie title" translatesAutoresizingMaskIntoConstraints="NO" id="zZS-SO-OV1">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Movie title" translatesAutoresizingMaskIntoConstraints="NO" id="zZS-SO-OV1">
                                 <rect key="frame" x="0.0" y="64" width="375" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="tjb-DP-21t" id="84k-xo-W1a"/>
+                                </connections>
                             </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0gV-jA-6FO">
                                 <rect key="frame" x="0.0" y="120" width="375" height="498"/>
@@ -77,11 +80,11 @@
                         <constraints>
                             <constraint firstItem="0gV-jA-6FO" firstAttribute="bottom" secondItem="r92-vq-TQw" secondAttribute="bottom" id="IPq-qJ-c7q"/>
                             <constraint firstItem="zZS-SO-OV1" firstAttribute="top" secondItem="r92-vq-TQw" secondAttribute="top" id="JxF-vJ-DVh"/>
+                            <constraint firstItem="r92-vq-TQw" firstAttribute="trailing" secondItem="zZS-SO-OV1" secondAttribute="trailing" id="PkM-xm-TL5"/>
                             <constraint firstItem="zZS-SO-OV1" firstAttribute="leading" secondItem="r92-vq-TQw" secondAttribute="leading" id="Ulq-zF-U3D"/>
                             <constraint firstItem="0gV-jA-6FO" firstAttribute="top" secondItem="zZS-SO-OV1" secondAttribute="bottom" id="ah9-Y8-zbW"/>
                             <constraint firstItem="0gV-jA-6FO" firstAttribute="trailing" secondItem="r92-vq-TQw" secondAttribute="trailing" id="hV0-oG-R6x"/>
                             <constraint firstItem="0gV-jA-6FO" firstAttribute="leading" secondItem="r92-vq-TQw" secondAttribute="leading" id="iLc-ce-Xuz"/>
-                            <constraint firstItem="zZS-SO-OV1" firstAttribute="trailing" secondItem="r92-vq-TQw" secondAttribute="trailing" id="xne-Tg-lXk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="r92-vq-TQw"/>
                     </view>
@@ -105,18 +108,22 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Vt6-93-XwW">
-                                <rect key="frame" x="0.0" y="92" width="375" height="526"/>
+                                <rect key="frame" x="0.0" y="96" width="375" height="522"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="C9Z-ok-c28">
                                     <size key="itemSize" width="363" height="282"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
+                                    <size key="footerReferenceSize" width="50" height="50"/>
+                                    <inset key="sectionInset" minX="8" minY="4" maxX="8" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ZFl-h4-YQF">
+                                    <rect key="frame" x="0.0" y="4" width="375" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </collectionReusableView>
                             </collectionView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UQY-sv-4De">
-                                <rect key="frame" x="0.0" y="64" width="375" height="29"/>
+                                <rect key="frame" x="8" y="64" width="359" height="29"/>
                                 <segments>
                                     <segment title="Popularity"/>
                                     <segment title="Vote average"/>
@@ -131,11 +138,11 @@
                         <constraints>
                             <constraint firstItem="Vt6-93-XwW" firstAttribute="bottom" secondItem="3N6-Ht-m06" secondAttribute="bottom" id="P8d-vc-LpH"/>
                             <constraint firstItem="UQY-sv-4De" firstAttribute="top" secondItem="3N6-Ht-m06" secondAttribute="top" id="Rem-Tn-AW7"/>
-                            <constraint firstItem="UQY-sv-4De" firstAttribute="leading" secondItem="3N6-Ht-m06" secondAttribute="leading" id="YlA-PG-stJ"/>
-                            <constraint firstItem="UQY-sv-4De" firstAttribute="trailing" secondItem="3N6-Ht-m06" secondAttribute="trailing" id="a7L-cf-qQO"/>
+                            <constraint firstItem="UQY-sv-4De" firstAttribute="leading" secondItem="3N6-Ht-m06" secondAttribute="leading" constant="8" id="YlA-PG-stJ"/>
                             <constraint firstItem="Vt6-93-XwW" firstAttribute="trailing" secondItem="3N6-Ht-m06" secondAttribute="trailing" id="h4T-Ss-QUe"/>
                             <constraint firstItem="Vt6-93-XwW" firstAttribute="leading" secondItem="3N6-Ht-m06" secondAttribute="leading" id="hlY-LO-Yus"/>
-                            <constraint firstItem="Vt6-93-XwW" firstAttribute="top" secondItem="UQY-sv-4De" secondAttribute="bottom" id="qnp-B0-UqX"/>
+                            <constraint firstItem="3N6-Ht-m06" firstAttribute="trailing" secondItem="UQY-sv-4De" secondAttribute="trailing" constant="8" id="kMj-MS-Geg"/>
+                            <constraint firstItem="Vt6-93-XwW" firstAttribute="top" secondItem="UQY-sv-4De" secondAttribute="bottom" constant="4" id="qnp-B0-UqX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="3N6-Ht-m06"/>
                     </view>
@@ -386,7 +393,7 @@
         <!--List-->
         <scene sceneID="Q8P-4e-df9">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bCg-rM-zUJ" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bCg-rM-zUJ" customClass="NavigationController" customModule="MoviesApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="List" id="WFA-0G-Eb2"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="SI3-uu-fYn">
@@ -405,7 +412,7 @@
         <!--Favourites-->
         <scene sceneID="f5N-qy-DXJ">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gFa-za-tKj" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gFa-za-tKj" customClass="NavigationController" customModule="MoviesApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Favourites" id="1Mu-Nr-D0U"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Au1-yc-fIe">
@@ -424,7 +431,7 @@
         <!--Search-->
         <scene sceneID="cJZ-YU-6P5">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iiN-8b-a67" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iiN-8b-a67" customClass="NavigationController" customModule="MoviesApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Search" id="k0w-Ix-1qt"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6uR-YM-o5H">
@@ -442,6 +449,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="znM-bF-mLJ"/>
+        <segue reference="1KQ-3g-ErF"/>
     </inferredMetricsTieBreakers>
 </document>
