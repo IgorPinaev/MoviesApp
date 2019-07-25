@@ -36,6 +36,6 @@ class MovieCell: UICollectionViewCell {
         stackRating.rating = rating
         let image = image ?? ""
         let url = URL(string: "https://image.tmdb.org/t/p/w300" + image)
-        movieImage.kf.setImage(with: url, placeholder: UIImage(named: "movie"))
+        movieImage.kf.setImage(with: url, placeholder: UIImage(named: "moviePlaceholder"))
     }
 }

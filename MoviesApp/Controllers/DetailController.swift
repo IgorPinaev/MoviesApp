@@ -37,7 +37,7 @@ class DetailController: UITableViewController {
         
         let image = self.movie?.posterPath ?? ""
         let url = URL(string: "https://image.tmdb.org/t/p/original" + image)
-        posterImage.kf.setImage(with: url, placeholder: UIImage(named: "movie"))
+        posterImage.kf.setImage(with: url, placeholder: UIImage(named: "moviePlaceholder"))
         
         trailers.bind(to: contentTable.rx.items(cellIdentifier: "TrailerCell", cellType: TrailerCell.self)) { (indexPath, trailer, cell) in
             cell.initCell(name: trailer.name)
