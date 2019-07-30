@@ -47,9 +47,11 @@ class DetailController: UITableViewController {
         APIController.sharedInstance.loadData(type: ResponseTrailer.self, path: .trailers(id: id), queryItems: SortQuery.popularity.parameters)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] (response) in
-                self?.trailers.accept(response.results)
-                }, onError: { (error) in
-                    print(error.localizedDescription)
+                self?.tableView.performBatchUpdates({
+                    self?.trailers.accept(response.results)
+                })
+            }, onError: { (error) in
+                print(error.localizedDescription)
             })
             .disposed(by: disposeBag)
         
@@ -62,6 +64,13 @@ class DetailController: UITableViewController {
                 }
             })
             .disposed(by: disposeBag)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 2 {
+            return CGFloat(44 * (trailers.value.count + 1))
+        }
+            return UITableView.automaticDimension
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
