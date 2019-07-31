@@ -29,11 +29,16 @@ class DetailController: UITableViewController {
         super.viewDidLoad()
         
         guard let movie = movie else {return}
+        title = movie.title
         titleLabel.text = movie.title
         originalTitleLabel.text = movie.originalTitle
         releaseLabel.text = movie.releaseDate
         voteLabel.text = movie.voteAverage?.description
         overviewLabel.text = movie.overview
+        
+        posterImage.layer.cornerRadius = 3.0
+        posterImage.layer.masksToBounds = true
+        posterImage.layer.backgroundColor = UIColor.white.cgColor
         
         let image = self.movie?.posterPath ?? ""
         let url = URL(string: "https://image.tmdb.org/t/p/original" + image)

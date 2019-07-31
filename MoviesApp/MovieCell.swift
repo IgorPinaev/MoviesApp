@@ -13,7 +13,7 @@ class MovieCell: UICollectionViewCell {
     @IBOutlet private var movieImage: UIImageView!
     @IBOutlet private var labelName: UILabel!
     @IBOutlet private var labelRating: UILabel!
-    @IBOutlet var stackRating: RatingView!
+    @IBOutlet private var stackRating: RatingView!
     
     func initCell(name: String?, rating: Double?, image: String?) {
         contentView.layer.cornerRadius = 3.0
