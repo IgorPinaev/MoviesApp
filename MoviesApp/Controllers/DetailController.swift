@@ -73,7 +73,7 @@ class DetailController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 2 {
-            return CGFloat(44 * (trailers.value.count + 1))
+            return CGFloat(44 * trailers.value.count)
         }
             return UITableView.automaticDimension
     }
