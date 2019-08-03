@@ -13,47 +13,33 @@ import RxCocoa
 class SearchController: UIViewController {
     
     @IBOutlet private var searchCollection: UICollectionView!
-    @IBOutlet private var searchBar: UISearchBar!
+//    @IBOutlet private var searchBar: UISearchBar!
     
     private let disposeBag = DisposeBag()
-    private let movies = BehaviorRelay<[MovieStruct]>(value: [])
+//    private let movies = BehaviorRelay<[MovieStruct]>(value: [])
+    private var movies: [MovieStruct] = [] {
+        didSet {
+            searchCollection.reloadData()
+        }
+    }
     private var selectedMovie: MovieStruct?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchCollection.rx.setDelegate(self).disposed(by: disposeBag)
-        searchCollection.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: "MovieCell")
         
-        movies.bind(to: searchCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
-            cell.initCell(name: movie.title, rating: movie.voteAverage, image: movie.posterPath)
-            }.disposed(by: disposeBag)
+//        movies.bind(to: searchCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
+//            cell.initCell(name: movie.title, rating: movie.voteAverage, image: movie.posterPath)
+//            }.disposed(by: disposeBag)
         
-        searchBar.rx.text
-            .distinctUntilChanged()
-            .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { (query) in
-                if query != "" {
-                    APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .search, queryItems: [SortQuery.onlyKey.parameters[0], URLQueryItem(name: "language", value: Locale.current.languageCode), URLQueryItem(name: "query", value: query)])
-                        .observeOn(MainScheduler.instance)
-                        .subscribe(onNext: { (response) in
-                            self.movies.accept(response.results)
-                        }, onError: { (error) in
-                            print(error.localizedDescription)
-                        })
-                        .disposed(by: self.disposeBag)
-                } else {
-                    self.movies.accept([])
-                }
-            })
-            .disposed(by: disposeBag)
         
-        searchCollection.rx.itemSelected
-            .subscribe(onNext: { [weak self] (indexPath) in
-                let movieInCell = self?.movies.value[indexPath.row]
-                self?.selectedMovie = movieInCell
-                self?.performSegue(withIdentifier: "goToDetail", sender: self)
-            })
-            .disposed(by: disposeBag)
+//        searchCollection.rx.itemSelected
+//            .subscribe(onNext: { [weak self] (indexPath) in
+//                let movieInCell = self?.movies.value[indexPath.row]
+//                self?.selectedMovie = movieInCell
+//                self?.performSegue(withIdentifier: "goToDetail", sender: self)
+//            })
+//            .disposed(by: disposeBag)
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(SearchController.longPressGestureRecognized(_:)))
         searchCollection.addGestureRecognizer(longPress)
@@ -64,7 +50,7 @@ class SearchController: UIViewController {
         let indexPath = searchCollection.indexPathForItem(at: longPress)
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
             if let index = indexPath?.row {
-                share(movie: movies.value[index], completionHandler: nil)
+//                share(movie: movies.value[index], completionHandler: nil)
             }
             return
         }
@@ -74,6 +60,43 @@ class SearchController: UIViewController {
             guard let destination = segue.destination as? DetailController else {return}
             destination.movie = selectedMovie
         }
+    }
+}
+extension SearchController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return movies.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        searchCollection.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: "MovieCell")
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCell", for: indexPath) as! MovieCell
+        let movie = movies[indexPath.row]
+        cell.initCell(name: movie.title, rating: movie.voteAverage, image: movie.posterPath)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if (kind == UICollectionView.elementKindSectionHeader) {
+            let headerView =  collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SearchHeader", for: indexPath) as! SearchBarReusableView
+            headerView.delegate = self
+            return headerView
+        }
+        
+        return UICollectionReusableView()
+    }
+}
+extension SearchController: SearchBarReusableViewDelegate {
+    func searchBarDidChange(query: String) {
+        APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .search, queryItems: [SortQuery.onlyKey.parameters[0], URLQueryItem(name: "language", value: Locale.current.languageCode), URLQueryItem(name: "query", value: query)])
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { (response) in
+                //                            self.movies.accept(response.results)
+                self.movies = response.results
+            }, onError: { (error) in
+                print(error.localizedDescription)
+            })
+            .disposed(by: self.disposeBag)
     }
 }
 extension SearchController: UISearchBarDelegate {
