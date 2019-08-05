@@ -15,11 +15,11 @@
             <objects>
                 <viewController id="2aA-Xh-8W8" customClass="FavouritesController" customModule="MoviesApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4XI-Jv-8Lw">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gdk-Pv-nxl">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="502"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1jE-DD-MFS">
                                     <size key="itemSize" width="369" height="285"/>
@@ -86,6 +86,10 @@
                                         <outlet property="searchBar" destination="zZS-SO-OV1" id="is4-O6-CmL"/>
                                     </connections>
                                 </collectionReusableView>
+                                <connections>
+                                    <outlet property="dataSource" destination="tjb-DP-21t" id="QRT-AW-mLu"/>
+                                    <outlet property="delegate" destination="tjb-DP-21t" id="4Zd-ZR-Hdx"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -112,20 +116,9 @@
             <objects>
                 <viewController id="xIv-SX-XDc" customClass="MoviesController" customModule="MoviesApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Wvk-Wc-oCn">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Vt6-93-XwW">
-                                <rect key="frame" x="0.0" y="32" width="375" height="522"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="C9Z-ok-c28">
-                                    <size key="itemSize" width="363" height="282"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="8" minY="4" maxX="8" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                            </collectionView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UQY-sv-4De">
                                 <rect key="frame" x="8" y="0.0" width="359" height="29"/>
                                 <segments>
@@ -137,16 +130,27 @@
                                     <action selector="changeSortingAction:" destination="xIv-SX-XDc" eventType="valueChanged" id="2F2-BG-sAk"/>
                                 </connections>
                             </segmentedControl>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Vt6-93-XwW">
+                                <rect key="frame" x="0.0" y="32" width="375" height="470"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="C9Z-ok-c28">
+                                    <size key="itemSize" width="363" height="282"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="8" minY="4" maxX="8" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="3N6-Ht-m06" firstAttribute="trailing" secondItem="UQY-sv-4De" secondAttribute="trailing" constant="8" id="JSL-EA-FLK"/>
+                            <constraint firstItem="UQY-sv-4De" firstAttribute="top" secondItem="3N6-Ht-m06" secondAttribute="top" id="JbC-fP-u1Q"/>
                             <constraint firstItem="Vt6-93-XwW" firstAttribute="bottom" secondItem="3N6-Ht-m06" secondAttribute="bottom" id="P8d-vc-LpH"/>
-                            <constraint firstItem="UQY-sv-4De" firstAttribute="top" secondItem="3N6-Ht-m06" secondAttribute="top" id="Rem-Tn-AW7"/>
-                            <constraint firstItem="UQY-sv-4De" firstAttribute="leading" secondItem="3N6-Ht-m06" secondAttribute="leading" constant="8" id="YlA-PG-stJ"/>
+                            <constraint firstItem="Vt6-93-XwW" firstAttribute="top" secondItem="UQY-sv-4De" secondAttribute="bottom" constant="4" id="XGF-xO-9gi"/>
                             <constraint firstItem="Vt6-93-XwW" firstAttribute="trailing" secondItem="3N6-Ht-m06" secondAttribute="trailing" id="h4T-Ss-QUe"/>
                             <constraint firstItem="Vt6-93-XwW" firstAttribute="leading" secondItem="3N6-Ht-m06" secondAttribute="leading" id="hlY-LO-Yus"/>
-                            <constraint firstItem="3N6-Ht-m06" firstAttribute="trailing" secondItem="UQY-sv-4De" secondAttribute="trailing" constant="8" id="kMj-MS-Geg"/>
-                            <constraint firstItem="Vt6-93-XwW" firstAttribute="top" secondItem="UQY-sv-4De" secondAttribute="bottom" constant="4" id="qnp-B0-UqX"/>
+                            <constraint firstItem="UQY-sv-4De" firstAttribute="leading" secondItem="3N6-Ht-m06" secondAttribute="leading" constant="8" id="vi9-yt-x6M"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="3N6-Ht-m06"/>
                     </view>
@@ -382,8 +386,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gFa-za-tKj" customClass="NavigationController" customModule="MoviesApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Favourites" image="favourite" id="1Mu-Nr-D0U"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Au1-yc-fIe">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" largeTitles="YES" id="Au1-yc-fIe">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -420,8 +424,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9zI-Nw-dr4" customClass="NavigationController" customModule="MoviesApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="List" image="strip" id="HIc-4B-FIe"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="ufJ-s9-oXh">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" largeTitles="YES" id="ufJ-s9-oXh">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -441,6 +445,6 @@
         <image name="trailer" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Zfd-g4-aOi"/>
+        <segue reference="1KQ-3g-ErF"/>
     </inferredMetricsTieBreakers>
 </document>

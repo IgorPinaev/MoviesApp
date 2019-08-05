@@ -13,10 +13,8 @@ import RxCocoa
 class SearchController: UIViewController {
     
     @IBOutlet private var searchCollection: UICollectionView!
-//    @IBOutlet private var searchBar: UISearchBar!
     
     private let disposeBag = DisposeBag()
-//    private let movies = BehaviorRelay<[MovieStruct]>(value: [])
     private var movies: [MovieStruct] = [] {
         didSet {
             searchCollection.reloadData()
@@ -26,21 +24,6 @@ class SearchController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchCollection.rx.setDelegate(self).disposed(by: disposeBag)
-        
-//        movies.bind(to: searchCollection.rx.items(cellIdentifier: "MovieCell", cellType: MovieCell.self)) { (indexPath, movie, cell) in
-//            cell.initCell(name: movie.title, rating: movie.voteAverage, image: movie.posterPath)
-//            }.disposed(by: disposeBag)
-        
-        
-//        searchCollection.rx.itemSelected
-//            .subscribe(onNext: { [weak self] (indexPath) in
-//                let movieInCell = self?.movies.value[indexPath.row]
-//                self?.selectedMovie = movieInCell
-//                self?.performSegue(withIdentifier: "goToDetail", sender: self)
-//            })
-//            .disposed(by: disposeBag)
-        
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(SearchController.longPressGestureRecognized(_:)))
         searchCollection.addGestureRecognizer(longPress)
     }
@@ -50,7 +33,7 @@ class SearchController: UIViewController {
         let indexPath = searchCollection.indexPathForItem(at: longPress)
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
             if let index = indexPath?.row {
-//                share(movie: movies.value[index], completionHandler: nil)
+                share(movie: movies[index], completionHandler: nil)
             }
             return
         }
@@ -60,6 +43,13 @@ class SearchController: UIViewController {
             guard let destination = segue.destination as? DetailController else {return}
             destination.movie = selectedMovie
         }
+    }
+}
+extension SearchController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieInCell = movies[indexPath.row]
+        selectedMovie = movieInCell
+        performSegue(withIdentifier: "goToDetail", sender: self)
     }
 }
 extension SearchController: UICollectionViewDataSource {
@@ -88,10 +78,13 @@ extension SearchController: UICollectionViewDataSource {
 }
 extension SearchController: SearchBarReusableViewDelegate {
     func searchBarDidChange(query: String) {
+        if query == "" {
+            movies = []
+            return
+        }
         APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .search, queryItems: [SortQuery.onlyKey.parameters[0], URLQueryItem(name: "language", value: Locale.current.languageCode), URLQueryItem(name: "query", value: query)])
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (response) in
-                //                            self.movies.accept(response.results)
                 self.movies = response.results
             }, onError: { (error) in
                 print(error.localizedDescription)
@@ -99,16 +92,6 @@ extension SearchController: SearchBarReusableViewDelegate {
             .disposed(by: self.disposeBag)
     }
 }
-extension SearchController: UISearchBarDelegate {
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.setShowsCancelButton(true, animated: true)
-    }
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.setShowsCancelButton(false, animated: true)
-        searchBar.resignFirstResponder()
-    }
-}
-
 extension SearchController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (UIScreen.main.bounds.width - 10 - 16) / 2
