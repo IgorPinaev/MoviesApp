@@ -1,60 +1,60 @@
 
+/* Class = "UINavigationItem"; title = "Search"; ObjectID = "04w-Iu-gIF"; */
+"04w-Iu-gIF.title" = "Поиск";
+
 /* Class = "UITabBarItem"; title = "Favourites"; ObjectID = "1Mu-Nr-D0U"; */
-"1Mu-Nr-D0U.title" = "Favourites";
+"1Mu-Nr-D0U.title" = "Избранное";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "7c0-v0-q76"; */
-"7c0-v0-q76.text" = "Label";
+/* Class = "UILabel"; text = "Label"; ObjectID = "8j9-s3-wbK"; */
+"8j9-s3-wbK.text" = "Label";
 
-/* Class = "UILabel"; text = "Vote average:"; ObjectID = "9SB-Qe-t5D"; */
-"9SB-Qe-t5D.text" = "Vote average:";
+/* Class = "UILabel"; text = "Title:"; ObjectID = "9DP-X8-sgn"; */
+"9DP-X8-sgn.text" = "Название:";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "Bti-4C-z2k"; */
-"Bti-4C-z2k.text" = "Label";
+/* Class = "UILabel"; text = "Release date:"; ObjectID = "BWj-oq-sGc"; */
+"BWj-oq-sGc.text" = "Премьера:";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Elf-xF-14a"; */
+"Elf-xF-14a.text" = "Label";
+
+/* Class = "UITabBarItem"; title = "List"; ObjectID = "HIc-4B-FIe"; */
+"HIc-4B-FIe.title" = "Список";
 
 /* Class = "UINavigationItem"; title = "Favourites"; ObjectID = "K4L-nJ-8R7"; */
-"K4L-nJ-8R7.title" = "Favourites";
+"K4L-nJ-8R7.title" = "Избранное";
 
 /* Class = "UINavigationItem"; title = "Movies"; ObjectID = "LKb-WI-ypR"; */
-"LKb-WI-ypR.title" = "Movies";
+"LKb-WI-ypR.title" = "Фильмы";
 
-/* Class = "UILabel"; text = "Original title:"; ObjectID = "Lkw-Yg-ZiR"; */
-"Lkw-Yg-ZiR.text" = "Original title:";
+/* Class = "UILabel"; text = "Label"; ObjectID = "MS4-hc-c3n"; */
+"MS4-hc-c3n.text" = "Label";
 
-/* Class = "UILabel"; text = "Release date:"; ObjectID = "OUq-WX-EjV"; */
-"OUq-WX-EjV.text" = "Release date:";
+/* Class = "UILabel"; text = "Label"; ObjectID = "OeO-Pb-bXL"; */
+"OeO-Pb-bXL.text" = "Label";
+
+/* Class = "UILabel"; text = "Original title:"; ObjectID = "OoM-5g-Vgf"; */
+"OoM-5g-Vgf.text" = "Оригинал:";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Oqz-DL-y51"; */
+"Oqz-DL-y51.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Qfj-l1-wso"; */
+"Qfj-l1-wso.text" = "Label";
 
 /* Class = "UISegmentedControl"; UQY-sv-4De.segmentTitles[0] = "Popularity"; ObjectID = "UQY-sv-4De"; */
-"UQY-sv-4De.segmentTitles[0]" = "Popularity";
+"UQY-sv-4De.segmentTitles[0]" = "По популярности";
 
 /* Class = "UISegmentedControl"; UQY-sv-4De.segmentTitles[1] = "Vote average"; ObjectID = "UQY-sv-4De"; */
-"UQY-sv-4De.segmentTitles[1]" = "Vote average";
+"UQY-sv-4De.segmentTitles[1]" = "По рейтингу";
 
 /* Class = "UISegmentedControl"; UQY-sv-4De.segmentTitles[2] = "Release date"; ObjectID = "UQY-sv-4De"; */
-"UQY-sv-4De.segmentTitles[2]" = "Release date";
+"UQY-sv-4De.segmentTitles[2]" = "По дате";
 
-/* Class = "UITabBarItem"; title = "Search"; ObjectID = "WFA-0G-Eb2"; */
-"WFA-0G-Eb2.title" = "Search";
+/* Class = "UITabBarItem"; title = "Search"; ObjectID = "k0w-Ix-1qt"; */
+"k0w-Ix-1qt.title" = "Поиск";
 
-/* Class = "UILabel"; text = "Title:"; ObjectID = "YfZ-5p-pAc"; */
-"YfZ-5p-pAc.text" = "Title:";
+/* Class = "UILabel"; text = "Vote average:"; ObjectID = "tMr-MG-aaX"; */
+"tMr-MG-aaX.text" = "Рейтинг:";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "dYg-pU-s71"; */
-"dYg-pU-s71.text" = "Label";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "tI5-rg-ASs"; */
-"tI5-rg-ASs.text" = "Label";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "taS-XK-g6x"; */
-"taS-XK-g6x.text" = "Label";
-
-/* Class = "UINavigationItem"; title = "Detail"; ObjectID = "udB-WF-4Ht"; */
-"udB-WF-4Ht.title" = "Detail";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "wTd-0H-9WM"; */
-"wTd-0H-9WM.text" = "Label";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "wdt-t9-09i"; */
-"wdt-t9-09i.text" = "Label";
-
-/* Class = "UILabel"; text = "Overview:"; ObjectID = "xW7-L0-cIc"; */
-"xW7-L0-cIc.text" = "Overview:";
+/* Class = "UISearchBar"; placeholder = "Movie title"; ObjectID = "zZS-SO-OV1"; */
+"zZS-SO-OV1.placeholder" = "Название фильма";

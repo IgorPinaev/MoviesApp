@@ -28,6 +28,7 @@ class DetailController: UIViewController {
         APIController.sharedInstance.loadData(type: ResponseTrailer.self, path: .trailers(id: id), queryItems: SortQuery.popularity.parameters)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] (response) in
+                if response.results.count == 0 {return}
                 for i in 0...response.results.count - 1 {
                     self?.trailers.append(response.results[i])
                     self?.detailTable.insertRows(at: [IndexPath(row: i + 2, section: 0)], with: .automatic)

@@ -21,6 +21,7 @@ class SearchBarReusableView: UICollectionReusableView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        searchBar.delegate = self
         searchBar.rx.text
             .distinctUntilChanged()
             .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
