@@ -29,6 +29,8 @@
 		7DBE75B522DDEF0C00AC6848 /* TrailerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBE75B422DDEF0C00AC6848 /* TrailerCell.swift */; };
 		7DC9965922E848580029EFF8 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC9965822E848580029EFF8 /* NavigationController.swift */; };
 		7DDD0A7E22F4466E001ECB6C /* SearchBarReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDD0A7D22F4466E001ECB6C /* SearchBarReusableView.swift */; };
+		7DDD0A8022F95D8C001ECB6C /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDD0A7F22F95D8C001ECB6C /* DetailCell.swift */; };
+		7DDD0A8222F95DF4001ECB6C /* OverviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDD0A8122F95DF4001ECB6C /* OverviewCell.swift */; };
 		7DDE2DD222E6DAD2002C80DA /* AlertShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE2DD122E6DAD2002C80DA /* AlertShare.swift */; };
 		7DDE2DD922E705F0002C80DA /* MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DDE2DD822E705F0002C80DA /* MovieCell.xib */; };
 /* End PBXBuildFile section */
@@ -61,6 +63,8 @@
 		7DBE75B422DDEF0C00AC6848 /* TrailerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailerCell.swift; sourceTree = "<group>"; };
 		7DC9965822E848580029EFF8 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		7DDD0A7D22F4466E001ECB6C /* SearchBarReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarReusableView.swift; sourceTree = "<group>"; };
+		7DDD0A7F22F95D8C001ECB6C /* DetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
+		7DDD0A8122F95DF4001ECB6C /* OverviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewCell.swift; sourceTree = "<group>"; };
 		7DDE2DD122E6DAD2002C80DA /* AlertShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertShare.swift; sourceTree = "<group>"; };
 		7DDE2DD822E705F0002C80DA /* MovieCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieCell.xib; sourceTree = "<group>"; };
 		C3707BB6B70195E730B66CD5 /* Pods-MoviesApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoviesApp.release.xcconfig"; path = "Target Support Files/Pods-MoviesApp/Pods-MoviesApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -94,6 +98,7 @@
 				7D2A61A922E6D59D00CC10D0 /* RatingView.swift */,
 				7D2A61A722E6D56900CC10D0 /* StarImageView.swift */,
 				7DC9965822E848580029EFF8 /* NavigationController.swift */,
+				7DDD0A7D22F4466E001ECB6C /* SearchBarReusableView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -134,8 +139,9 @@
 				7D9DDC3622B26330002C13E9 /* Controllers */,
 				7D2A61A622E6D52900CC10D0 /* Extensions */,
 				7D4FE9A322BB687100077594 /* MovieCell.swift */,
-				7DDD0A7D22F4466E001ECB6C /* SearchBarReusableView.swift */,
+				7DDD0A7F22F95D8C001ECB6C /* DetailCell.swift */,
 				7DBE75B422DDEF0C00AC6848 /* TrailerCell.swift */,
+				7DDD0A8122F95DF4001ECB6C /* OverviewCell.swift */,
 				7D9DDC2122B260D0002C13E9 /* AppDelegate.swift */,
 				7DDE2DD322E6E7BB002C80DA /* Views */,
 				7D9DDC2B22B260D2002C13E9 /* Assets.xcassets */,
@@ -307,10 +313,12 @@
 				7DDD0A7E22F4466E001ECB6C /* SearchBarReusableView.swift in Sources */,
 				7D24C07122E06CAC00D5DB2F /* SearchController.swift in Sources */,
 				7D4FE99B22BB52F400077594 /* Movie+CoreDataClass.swift in Sources */,
+				7DDD0A8222F95DF4001ECB6C /* OverviewCell.swift in Sources */,
 				7D829E3722B9FF8D001A968C /* APIController.swift in Sources */,
 				7D2A61A822E6D56900CC10D0 /* StarImageView.swift in Sources */,
 				7D4FE9A422BB687100077594 /* MovieCell.swift in Sources */,
 				7D4FE99C22BB52F400077594 /* Movie+CoreDataProperties.swift in Sources */,
+				7DDD0A8022F95D8C001ECB6C /* DetailCell.swift in Sources */,
 				7DDE2DD222E6DAD2002C80DA /* AlertShare.swift in Sources */,
 				7D00F5E822DC859E00FD787D /* APIControllerModels.swift in Sources */,
 				7D9DDC2A22B260D0002C13E9 /* MoviesApp.xcdatamodeld in Sources */,

@@ -15,7 +15,6 @@ class MoviesController: UIViewController {
     @IBOutlet private var sortControl: UISegmentedControl!
     
     private let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
-    private let container: UIView = UIView()
     private let refreshControl = UIRefreshControl()
     
     private var selectedMovie: MovieStruct?
