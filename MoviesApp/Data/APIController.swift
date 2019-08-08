@@ -11,8 +11,7 @@ import RxSwift
 import RxCocoa
 
 class APIController {
-    
-    static let sharedInstance = APIController()
+    static let shared = APIController()
     
     func loadData<T: Decodable>(type: T.Type, path: Path, queryItems: [URLQueryItem]?) -> Observable<T> {
         var components = URLComponents()

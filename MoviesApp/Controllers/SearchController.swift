@@ -13,7 +13,7 @@ import RxCocoa
 class SearchController: UIViewController {
     
     @IBOutlet private var searchCollection: UICollectionView!
-    
+    private let apiController: APIController = APIController.shared
     private let disposeBag = DisposeBag()
     private var movies: [MovieStruct] = [] {
         didSet {
@@ -82,7 +82,7 @@ extension SearchController: SearchBarReusableViewDelegate {
             movies = []
             return
         }
-        APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .search, queryItems: [SortQuery.onlyKey.parameters[0], URLQueryItem(name: "language", value: Locale.current.languageCode), URLQueryItem(name: "query", value: query)])
+        apiController.loadData(type: ResponseMovie.self, path: .search, queryItems: [SortQuery.onlyKey.parameters[0], URLQueryItem(name: "language", value: Locale.current.languageCode), URLQueryItem(name: "query", value: query)])
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (response) in
                 self.movies = response.results

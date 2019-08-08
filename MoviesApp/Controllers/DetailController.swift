@@ -14,6 +14,7 @@ import SafariServices
 class DetailController: UIViewController {
     
     @IBOutlet private var detailTable: UITableView!
+    private let apiController: APIController = APIController.shared
     var movie: MovieStruct?
     private var trailers: [TrailerStruct] = []
     private let disposeBag = DisposeBag()
@@ -25,7 +26,7 @@ class DetailController: UIViewController {
         title = movie.title
         
         guard let id = movie.id else {return}
-        APIController.sharedInstance.loadData(type: ResponseTrailer.self, path: .trailers(id: id), queryItems: SortQuery.popularity.parameters)
+        apiController.loadData(type: ResponseTrailer.self, path: .trailers(id: id), queryItems: SortQuery.popularity.parameters)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] (response) in
                 if response.results.count == 0 {return}

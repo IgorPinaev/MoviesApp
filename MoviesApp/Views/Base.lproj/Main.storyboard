@@ -384,7 +384,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oqz-DL-y51">
-                                                    <rect key="frame" x="68" y="8" width="291" height="29"/>
+                                                    <rect key="frame" x="68" y="8" width="291" height="28.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -436,6 +436,6 @@
         <image name="trailer" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="f0A-5i-40o"/>
+        <segue reference="uUW-uI-MLE"/>
     </inferredMetricsTieBreakers>
 </document>

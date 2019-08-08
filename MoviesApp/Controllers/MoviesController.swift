@@ -14,6 +14,7 @@ class MoviesController: UIViewController {
     @IBOutlet private var moviesCollection: UICollectionView!
     @IBOutlet private var sortControl: UISegmentedControl!
     
+    private let apiController: APIController = APIController.shared
     private let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
     private let refreshControl = UIRefreshControl()
     
@@ -98,7 +99,7 @@ class MoviesController: UIViewController {
     }
     
     private func loadMovies() -> Observable<ResponseMovie>{
-        return APIController.sharedInstance.loadData(type: ResponseMovie.self, path: .movies, queryItems: queryItems)
+        return apiController.loadData(type: ResponseMovie.self, path: .movies, queryItems: queryItems)
             .observeOn(MainScheduler.instance)
     }
 }
