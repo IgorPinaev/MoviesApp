@@ -104,7 +104,7 @@
                     <navigationItem key="navigationItem" title="Search" id="04w-Iu-gIF"/>
                     <connections>
                         <outlet property="searchCollection" destination="0gV-jA-6FO" id="NEo-Mg-ajx"/>
-                        <segue destination="14O-jU-5bb" kind="show" identifier="goToDetail" id="uUW-uI-MLE"/>
+                        <segue destination="14O-jU-5bb" kind="show" identifier="goToDetail" id="fIS-ra-zFv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Waf-RT-RF4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -420,6 +420,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="kw8-Mq-jW1"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Tje-W4-zXJ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="MA2-uN-wj8">
+                            <connections>
+                                <action selector="shareAction:" destination="14O-jU-5bb" id="fjS-5y-oUL"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="detailTable" destination="i7C-ym-xlc" id="CdO-lQ-CC4"/>
                     </connections>
@@ -436,6 +443,6 @@
         <image name="trailer" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uUW-uI-MLE"/>
+        <segue reference="fIS-ra-zFv"/>
     </inferredMetricsTieBreakers>
 </document>

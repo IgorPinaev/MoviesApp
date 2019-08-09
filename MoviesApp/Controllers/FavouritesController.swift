@@ -48,7 +48,7 @@ class FavouritesController: UIViewController {
         let indexPath = favouritesCollection.indexPathForItem(at: longPress)
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
             if let index = indexPath?.row {
-                share(movie: favourites[index].toStruct()) {
+                addFavourite(movie: favourites[index].toStruct(), saveAction: nil) {
                     self.movies.accept(favourites)
                 }
             }

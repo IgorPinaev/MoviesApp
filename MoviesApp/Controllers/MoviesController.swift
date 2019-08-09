@@ -85,7 +85,7 @@ class MoviesController: UIViewController {
         let indexPath = moviesCollection.indexPathForItem(at: longPress)
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
             if let index = indexPath?.row {
-                share(movie: movies.value[index], completionHandler: nil)
+                addFavourite(movie: movies.value[index], saveAction: nil, completionHandler: nil)
             }
             return
         }

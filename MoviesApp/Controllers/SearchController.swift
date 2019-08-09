@@ -33,7 +33,7 @@ class SearchController: UIViewController {
         let indexPath = searchCollection.indexPathForItem(at: longPress)
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
             if let index = indexPath?.row {
-                share(movie: movies[index], completionHandler: nil)
+                addFavourite(movie: movies[index], saveAction: nil, completionHandler: nil)
             }
             return
         }

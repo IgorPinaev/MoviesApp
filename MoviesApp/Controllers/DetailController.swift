@@ -39,6 +39,29 @@ class DetailController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
+    
+    @IBAction func shareAction(_ sender: Any) {
+        var saveAction: UIAlertAction? = nil
+        let cell = self.detailTable.cellForRow(at: IndexPath(row: 0, section: 0)) as? DetailCell
+        guard let movie = movie, let image = cell?.posterImage.image else {return}
+        if image != UIImage(named: "moviePlaceholder") {
+            saveAction = UIAlertAction(title: "Save poster".localize(), style: .default, handler: {[weak self] (action) in
+                UIImageWriteToSavedPhotosAlbum(image, self, #selector(self?.saveImage(_:didFinishSavingWithError:contextInfo:)), nil)
+            })
+        }
+
+        addFavourite(movie: movie, saveAction: saveAction, completionHandler: nil)
+    }
+    @objc func saveImage(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
+        var alert: UIAlertController
+        if let error = error {
+            alert = UIAlertController(title: "Save error".localize(), message: error.localizedDescription, preferredStyle: .alert)
+        } else {
+            alert = UIAlertController(title: "Saved".localize(), message: "Image has been saved to your photos".localize(), preferredStyle: .alert)
+        }
+        alert.addAction(UIAlertAction(title: "Ok", style: .default))
+        present(alert, animated: true)
+    }
 }
 extension DetailController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

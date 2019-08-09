@@ -10,9 +10,12 @@ import Foundation
 import UIKit
 
 extension UIViewController {
-    func share(movie: MovieStruct, completionHandler: (()-> Void)?) {
+    func addFavourite(movie: MovieStruct, saveAction: UIAlertAction?, completionHandler: (()-> Void)?) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
+        if let saveAction = saveAction {
+            alert.addAction(saveAction)
+        }
         if let favouriteIndex = favourites.firstIndex(where: {$0.id == movie.id && $0.title == movie.title && $0.originalTitle == movie.originalTitle && $0.releaseDate == movie.releaseDate && $0.overview == movie.overview && $0.posterPath == movie.posterPath && $0.voteAverage == movie.voteAverage}) {
             alert.addAction(UIAlertAction(title: "Remove from favourites".localize(), style: .destructive, handler: { (action) in
                 CoreDataManager.sharedInstance.managedObjectContext.delete(favourites[favouriteIndex])
