@@ -18,7 +18,7 @@ class FavouritesController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         favouritesCollection.rx.setDelegate(self).disposed(by: disposeBag)
         favouritesCollection.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: "MovieCell")
         

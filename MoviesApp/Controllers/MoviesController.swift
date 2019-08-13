@@ -30,7 +30,7 @@ class MoviesController: UIViewController {
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
         moviesCollection.refreshControl = refreshControl
         setActivityIndicator()
-    
+        
         moviesCollection.rx.setDelegate(self).disposed(by: disposeBag)
         moviesCollection.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: "MovieCell")
         
@@ -59,7 +59,7 @@ class MoviesController: UIViewController {
                 self?.refreshControl.endRefreshing()
                 self?.moviesCollection.contentOffset = .zero
                 self?.movies.accept(response.results)
-                })
+            })
             }, onError: { (error) in
                 print(error.localizedDescription)
         })
@@ -100,7 +100,7 @@ class MoviesController: UIViewController {
     
     private func loadMovies() -> Observable<ResponseMovie>{
         return apiController.loadData(with: ResponseMovie.self, request: .movies(sort: MoviesSort(rawValue: sorting) ?? MoviesSort.popularity, page: String(page)))
-        .observeOn(MainScheduler.instance)
+            .observeOn(MainScheduler.instance)
     }
 }
 extension MoviesController: UICollectionViewDelegate{

@@ -49,7 +49,7 @@ class DetailController: UIViewController {
                 UIImageWriteToSavedPhotosAlbum(image, self, #selector(self?.saveImage(_:didFinishSavingWithError:contextInfo:)), nil)
             })
         }
-
+        
         addFavourite(movie: movie, saveAction: saveAction, completionHandler: nil)
     }
     @objc func saveImage(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
