@@ -82,7 +82,7 @@ extension SearchController: SearchBarReusableViewDelegate {
             movies = []
             return
         }
-        apiController.loadData(type: ResponseMovie.self, path: .search, queryItems: [SortQuery.onlyKey.parameters[0], URLQueryItem(name: "language", value: Locale.current.languageCode), URLQueryItem(name: "query", value: query)])
+        apiController.loadData(with: ResponseMovie.self, request: .search(query: query))
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (response) in
                 self.movies = response.results

@@ -26,7 +26,7 @@ class DetailController: UIViewController {
         title = movie.title
         
         guard let id = movie.id else {return}
-        apiController.loadData(type: ResponseTrailer.self, path: .trailers(id: id), queryItems: SortQuery.popularity.parameters)
+        apiController.loadData(with: ResponseTrailer.self, request: .trailers(id: id))
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] (response) in
                 if response.results.count == 0 {return}

@@ -20,7 +20,7 @@ class MoviesController: UIViewController {
     
     private var selectedMovie: MovieStruct?
     private var page: Int = 1
-    private var queryItems: [URLQueryItem] = []
+    private var sorting: Int = 1
     
     private let disposeBag = DisposeBag()
     private let movies = BehaviorRelay<[MovieStruct]>(value: [])
@@ -67,7 +67,7 @@ class MoviesController: UIViewController {
     }
     
     @IBAction func changeSortingAction(_ sender: UISegmentedControl) {
-        queryItems = SortQuery(rawValue: sortControl.selectedSegmentIndex)?.parameters ?? []
+        sorting = sortControl.selectedSegmentIndex
         page = 1
         movies.accept([])
         refreshControl.beginRefreshing()
@@ -99,24 +99,21 @@ class MoviesController: UIViewController {
     }
     
     private func loadMovies() -> Observable<ResponseMovie>{
-        return apiController.loadData(type: ResponseMovie.self, path: .movies, queryItems: queryItems)
-            .observeOn(MainScheduler.instance)
+        return apiController.loadData(with: ResponseMovie.self, request: .movies(sort: MoviesSort(rawValue: sorting) ?? MoviesSort.popularity, page: String(page)))
+        .observeOn(MainScheduler.instance)
     }
 }
 extension MoviesController: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == movies.value.count - 4 {
             activityIndicator.startAnimating()
-            queryItems.append(URLQueryItem(name: "page", value: String(page + 1)))
-            
+            page += 1
             loadMovies().subscribe(onNext: { [weak self] (response) in
                 var movies = self?.movies.value ?? []
                 movies.append(contentsOf: response.results)
                 self?.movies.accept(movies)
                 self?.page = response.page
                 self?.activityIndicator.stopAnimating()
-                guard let count = self?.queryItems.count else {return}
-                self?.queryItems.remove(at: count - 1)
                 }, onError: { (error) in
                     print(error.localizedDescription)
             })
